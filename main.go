@@ -41,4 +41,19 @@ func main() {
 		}
 		return
 	}
+
+	if args[0] == "watch" {
+		if len(args) == 1 {
+			err := commands.Watch(".")
+			if err != nil {
+				fmt.Println(err)
+			}
+			return
+		}
+		err := commands.Watch(args[1])
+		if err != nil {
+			fmt.Println(err)
+		}
+		return
+	}
 }

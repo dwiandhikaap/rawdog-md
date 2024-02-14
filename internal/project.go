@@ -51,7 +51,6 @@ func LoadProject() (*[]Page, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error rendering page '%s': %v", page.SourceAbsolutePath, err)
 		}
-		fmt.Println(&page.SourceAbsolutePath)
 	}
 
 	return &pages, nil

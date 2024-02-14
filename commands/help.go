@@ -10,13 +10,14 @@ Output a friendly greeting
 
 commands:
 	run		   			Run the program
+	watch				Watch the program for changes and re-run
 
 Use "rawd help <command>" for more information about a command.`)
 }
 
 func HelpRun() {
 	fmt.Println(
-`Usage: rawd run [path]
+		`Usage: rawd run [path]
 
 Run the program
 
