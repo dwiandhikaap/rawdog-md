@@ -2,6 +2,8 @@ package internal
 
 import (
 	"rawdog-md/helper"
+
+	"github.com/aymerick/raymond"
 )
 
 type Context map[string]any
@@ -32,7 +34,7 @@ func NewContexts(pages []Page) map[string]Context {
 		context["$url"] = page.RelativeUrl
 		context["$type"] = page.Type.String()
 		context["$filename"] = helper.OmitFilenameExtension(page.Filename)
-		context["$body"] = page.Body
+		context["$body"] = raymond.SafeString(page.Body)
 
 		if page.Frontmatter != nil {
 			for k, v := range *page.Frontmatter {
