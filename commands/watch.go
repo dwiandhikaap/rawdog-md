@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"rawdog-md/global"
+	"strings"
 )
 
 func Watch(relativePath string) error {
@@ -11,6 +12,8 @@ func Watch(relativePath string) error {
 	if err != nil {
 		return err
 	}
+
+	rootAbs = strings.ReplaceAll(rootAbs, "\\", "/")
 
 	config := global.ConfigType{
 		RootRelativePath: relativePath,
