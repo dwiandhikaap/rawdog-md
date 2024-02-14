@@ -6,5 +6,3 @@ type Template struct {
 
 	Content string
 }
-
-// TODO: implement this

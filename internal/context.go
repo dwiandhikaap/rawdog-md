@@ -11,10 +11,10 @@ func NewContexts(pages []Page) map[string]Context {
 	for _, page := range pages {
 		pageMap := make(map[string]any)
 
-		pageMap["_url"] = page.RelativeUrl
-		pageMap["_type"] = page.Type.String()
-		pageMap["_filename"] = helper.OmitFilenameExtension(page.Filename)
-		pageMap["_body"] = page.Body
+		pageMap["$url"] = page.RelativeUrl
+		pageMap["$type"] = page.Type.String()
+		pageMap["$filename"] = helper.OmitFilenameExtension(page.Filename)
+		pageMap["$body"] = page.Body
 
 		if page.Frontmatter != nil {
 			for k, v := range *page.Frontmatter {
@@ -28,11 +28,11 @@ func NewContexts(pages []Page) map[string]Context {
 	contexts := make(map[string]Context)
 	for _, page := range pages {
 		context := make(Context)
-		context["_pages"] = pagesContext
-		context["_url"] = page.RelativeUrl
-		context["_type"] = page.Type.String()
-		context["_filename"] = helper.OmitFilenameExtension(page.Filename)
-		context["_body"] = page.Body
+		context["$pages"] = pagesContext
+		context["$url"] = page.RelativeUrl
+		context["$type"] = page.Type.String()
+		context["$filename"] = helper.OmitFilenameExtension(page.Filename)
+		context["$body"] = page.Body
 
 		if page.Frontmatter != nil {
 			for k, v := range *page.Frontmatter {
