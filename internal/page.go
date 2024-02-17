@@ -25,6 +25,7 @@ func (p PageType) String() string {
 }
 
 type Page struct {
+	SourceRelativePath string
 	SourceAbsolutePath string
 	Filename           string
 	RelativeUrl        string
@@ -103,13 +104,19 @@ func NewPage(absolutePath string) (*Page, error) {
 		return nil, err
 	}
 
-	var Page *Page
+	Page := &Page{
+		Type:               Markdown,
+		Filename:           filepath.Base(relativePath),
+		SourceRelativePath: relativePath,
+		SourceAbsolutePath: absolutePath,
+	}
+
 	if filepath.Ext(filename) == ".md" {
-		Page, err = newMarkdownPage(relativePath)
+		err = loadMarkdown(Page)
 	} else if filepath.Ext(filename) == ".html" {
-		Page, err = newHtmlPage(relativePath)
+		err = loadHtml(Page)
 	} else if filepath.Ext(filename) == ".hbs" {
-		Page, err = newHandlebarsPage(relativePath)
+		err = loadHandlebars(Page)
 	} else {
 		return nil, nil
 	}
@@ -121,18 +128,10 @@ func NewPage(absolutePath string) (*Page, error) {
 	return Page, nil
 }
 
-func newMarkdownPage(relativePath string) (*Page, error) {
-	absolutePath := filepath.Join(global.Config.RootAbsolutePath, relativePath)
-
-	Page := &Page{
-		Type:               Markdown,
-		Filename:           filepath.Base(relativePath),
-		SourceAbsolutePath: absolutePath,
-	}
-
-	fileContent, err := os.ReadFile(absolutePath)
+func loadMarkdown(p *Page) error {
+	fileContent, err := os.ReadFile(p.SourceAbsolutePath)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	var fm Frontmatter
@@ -140,82 +139,66 @@ func newMarkdownPage(relativePath string) (*Page, error) {
 	reader := strings.NewReader(string(fileContent))
 	content, err := frontmatter.Parse(reader, &fm)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	err = validateFrontmatter(fm)
 	if err != nil {
-		return nil, err
+		return err
 	}
+
+	p.Frontmatter = &fm
+
+	templateName := fm["template"].(string) + ".hbs"
+	p.TemplateName = &templateName
+
+	relativePath := p.SourceRelativePath
+	relativePageWithoutExt := relativePath[:len(relativePath)-len(filepath.Ext(p.Filename))]
+	p.RelativeUrl = relativePageWithoutExt + ".html"
+	p.RelativeUrl = strings.Replace(p.RelativeUrl, "\\", "/", -1)
+	p.RelativeUrl = p.RelativeUrl[5:]
 
 	markdownHtml, err := convertMarkdown(string(content))
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	Page.Frontmatter = &fm
-	Page.Body = markdownHtml
-
-	templateName := fm["template"].(string) + ".hbs"
-	Page.TemplateName = &templateName
-
-	relativePageWithoutExt := relativePath[:len(relativePath)-len(filepath.Ext(Page.Filename))]
-	Page.RelativeUrl = relativePageWithoutExt + ".html"
-	Page.RelativeUrl = strings.Replace(Page.RelativeUrl, "\\", "/", -1)
-	Page.RelativeUrl = Page.RelativeUrl[5:]
-
-	return Page, nil
+	p.Body = markdownHtml
+	return nil
 }
 
-func newHtmlPage(relativePath string) (*Page, error) {
-	absolutePath := filepath.Join(global.Config.RootAbsolutePath, relativePath)
-
-	Page := &Page{
-		Type:               Html,
-		Filename:           filepath.Base(relativePath),
-		SourceAbsolutePath: absolutePath,
-	}
-
-	fileContent, err := os.ReadFile(absolutePath)
+func loadHtml(p *Page) error {
+	fileContent, err := os.ReadFile(p.SourceAbsolutePath)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	Page.Body = string(fileContent)
-	Page.RelativeUrl = relativePath
-	Page.RelativeUrl = strings.Replace(Page.RelativeUrl, "\\", "/", -1)
-	Page.RelativeUrl = Page.RelativeUrl[5:]
+	p.Body = string(fileContent)
+	p.RelativeUrl = p.SourceRelativePath
+	p.RelativeUrl = strings.Replace(p.RelativeUrl, "\\", "/", -1)
+	p.RelativeUrl = p.RelativeUrl[5:]
 
-	return Page, nil
+	return nil
 }
 
-func newHandlebarsPage(relativePath string) (*Page, error) {
-	absolutePath := filepath.Join(global.Config.RootAbsolutePath, relativePath)
-
-	Page := &Page{
-		Type:               Handlebars,
-		Filename:           filepath.Base(relativePath),
-		SourceAbsolutePath: absolutePath,
-	}
-
-	fileContent, err := os.ReadFile(absolutePath)
+func loadHandlebars(p *Page) error {
+	fileContent, err := os.ReadFile(p.SourceAbsolutePath)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	Page.Template = &Template{
-		AbsolutePath: absolutePath,
-		Filename:     Page.Filename,
+	p.Template = &Template{
+		AbsolutePath: p.SourceAbsolutePath,
+		Filename:     p.Filename,
 		Content:      string(fileContent),
 	}
-	Page.Body = ""
+	p.Body = ""
 
-	relativePageWithoutExt := relativePath[:len(relativePath)-len(filepath.Ext(Page.Filename))]
-	Page.RelativeUrl = relativePageWithoutExt + ".html"
-	Page.RelativeUrl = strings.Replace(Page.RelativeUrl, "\\", "/", -1)
-	Page.RelativeUrl = Page.RelativeUrl[5:]
+	relativePageWithoutExt := p.SourceRelativePath[:len(p.SourceRelativePath)-len(filepath.Ext(p.Filename))]
+	p.RelativeUrl = relativePageWithoutExt + ".html"
+	p.RelativeUrl = strings.Replace(p.RelativeUrl, "\\", "/", -1)
+	p.RelativeUrl = p.RelativeUrl[5:]
 
-	return Page, nil
+	return nil
 }
 
 func validateFrontmatter(frontmatter Frontmatter) error {
