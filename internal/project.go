@@ -102,7 +102,7 @@ func LoadTemplate(rootRelativePath string, templateName string) (*Template, erro
 func WritePages(pages *[]Page) error {
 	for _, page := range *pages {
 		abs := filepath.Join(global.Config.RootAbsolutePath, "build", page.RelativeUrl)
-		err := helper.WriteHtmlFile(abs, page.Output)
+		err := helper.WriteTextFile(abs, page.Output)
 		if err != nil {
 			return err
 		}

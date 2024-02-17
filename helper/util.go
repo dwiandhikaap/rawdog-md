@@ -20,7 +20,7 @@ func OmitFilenameExtension(filename string) string {
 	return filename[:len(filename)-len(filepath.Ext(filename))]
 }
 
-func WriteHtmlFile(absolutePath string, content string) error {
+func WriteTextFile(absolutePath string, content string) error {
 	dir := filepath.Dir(absolutePath)
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		err := os.MkdirAll(dir, os.ModePerm)
