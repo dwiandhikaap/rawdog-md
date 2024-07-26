@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"rawdog-md/global"
@@ -94,9 +95,19 @@ func Watch(relativePath string) error {
 	fmt.Println("Watching '" + relativePath + "' for changes...")
 	fmt.Println("Press Ctrl+C to stop.")
 
+	go serve(filepath.Join(relativePath, "build"), 3000) // TODO: Make port configurable
+
 	<-make(chan int)
 
 	return nil
+}
+
+// Serve built files
+func serve(dir string, port int) {
+	http.Handle("/", http.FileServer(http.Dir(dir)))
+	portStr := fmt.Sprintf(":%d", port)
+	fmt.Println("Serving on http://localhost" + portStr)
+	http.ListenAndServe(portStr, nil)
 }
 
 func runWatcher(w *fsnotify.Watcher, cb WatcherCallbacks, project *internal.Project) {

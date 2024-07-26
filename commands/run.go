@@ -28,12 +28,7 @@ func Run() error {
 		return err
 	}
 
-	err = internal.WritePages(&project.Pages)
-	if err != nil {
-		return err
-	}
-
-	err = internal.CopyStaticFiles()
+	err = project.ForceRebuild()
 	if err != nil {
 		return err
 	}
