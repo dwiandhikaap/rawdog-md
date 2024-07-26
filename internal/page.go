@@ -94,6 +94,12 @@ func (p *Page) Reload() error {
 func (p *Page) Render(contextMap map[string]Context) error {
 	context := contextMap[p.SourceAbsolutePath]
 
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("PANIC: unable to render '%s':\n%v\n", p.SourceAbsolutePath, r)
+		}
+	}()
+
 	if p.Type == Html {
 		p.Output = p.Body
 		return nil
