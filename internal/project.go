@@ -15,26 +15,6 @@ type Project struct {
 	Assets []string
 }
 
-func (p *Project) Render() error {
-	for i := range p.Pages {
-		err := p.Pages[i].Reload()
-		if err != nil {
-			return err
-		}
-	}
-
-	context := NewContexts(p.Pages)
-
-	for i := range p.Pages {
-		err := p.Pages[i].Render(context)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (p *Project) WritePages() error {
 	err := WritePages(&p.Pages)
 	if err != nil {
@@ -88,7 +68,9 @@ func (p *Project) PurgeBuildDir() error {
 	return nil
 }
 
-func (p *Project) ForceBuild() error {
+// O God, I humbly implore Thee to forgive the cardinal sin I am about to commit against the garbage collector,
+// as I shamefully recreating the entire project anew with each file change, without reusing objects or memory.
+func (p *Project) ForceRebuild() error {
 	pages, err := LoadPages()
 	if err != nil {
 		return err

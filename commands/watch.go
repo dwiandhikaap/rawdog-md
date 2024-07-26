@@ -67,11 +67,6 @@ func Watch(relativePath string) error {
 		log.Fatal(err)
 	}
 
-	err = project.Render()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	err = project.WritePages()
 	if err != nil {
 		log.Fatal(err)
@@ -198,7 +193,7 @@ func eventRelativeRoot(eventPath string) string {
 
 func pageWriteCallback(eventPath string, project *internal.Project) error {
 	fmt.Println("Modified:", eventRelativeRoot(eventPath))
-	err := project.ForceBuild()
+	err := project.ForceRebuild()
 	if err != nil {
 		return fmt.Errorf("build error: %v", err)
 	}
@@ -207,7 +202,7 @@ func pageWriteCallback(eventPath string, project *internal.Project) error {
 }
 func pageCreateCallback(eventPath string, project *internal.Project) error {
 	fmt.Println("Created:", eventRelativeRoot(eventPath))
-	err := project.ForceBuild()
+	err := project.ForceRebuild()
 	if err != nil {
 		return fmt.Errorf("build error: %v", err)
 	}
@@ -216,7 +211,7 @@ func pageCreateCallback(eventPath string, project *internal.Project) error {
 }
 func pageRemoveCallback(eventPath string, project *internal.Project) error {
 	fmt.Println("Removed:", eventRelativeRoot(eventPath))
-	err := project.ForceBuild()
+	err := project.ForceRebuild()
 	if err != nil {
 		return fmt.Errorf("build error: %v", err)
 	}
@@ -226,7 +221,7 @@ func pageRemoveCallback(eventPath string, project *internal.Project) error {
 
 func pageRenameCallback(eventPath string, project *internal.Project) error {
 	fmt.Println("Renamed:", eventRelativeRoot(eventPath))
-	err := project.ForceBuild()
+	err := project.ForceRebuild()
 	if err != nil {
 		return fmt.Errorf("build error: %v", err)
 	}
@@ -236,7 +231,7 @@ func pageRenameCallback(eventPath string, project *internal.Project) error {
 
 func assetCallback(eventPath string, project *internal.Project) error {
 	fmt.Println("Static file changes", eventRelativeRoot(eventPath))
-	err := project.ForceBuild()
+	err := project.ForceRebuild()
 	if err != nil {
 		return fmt.Errorf("build error: %v", err)
 	}

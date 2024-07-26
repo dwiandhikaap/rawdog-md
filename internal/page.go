@@ -214,7 +214,7 @@ func loadHandlebars(p *Page) error {
 		Filename:     p.Filename,
 		Content:      string(fileContent),
 	}
-	p.Body = ""
+	p.Body = "" // Handlebars files have no body as it will be treated as a template under the hood.. i guess..
 
 	relativePageWithoutExt := p.SourceRelativePath[:len(p.SourceRelativePath)-len(filepath.Ext(p.Filename))]
 	p.RelativeUrl = relativePageWithoutExt + ".html"
