@@ -11,7 +11,17 @@ import (
 )
 
 var md = goldmark.New(
-	goldmark.WithExtensions(extension.GFM),
+	goldmark.WithExtensions(
+		extension.GFM,
+		extension.CJK,
+		extension.DefinitionList,
+		extension.Footnote,
+		extension.Table,
+		extension.Strikethrough,
+		extension.Typographer,
+		extension.TaskList,
+		extension.Linkify,
+	),
 	goldmark.WithParserOptions(
 		parser.WithAutoHeadingID(),
 	),

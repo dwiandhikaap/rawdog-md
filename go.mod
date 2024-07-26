@@ -6,7 +6,7 @@ require (
 	github.com/adrg/frontmatter v0.2.0
 	github.com/aymerick/raymond v2.0.2+incompatible
 	github.com/fsnotify/fsnotify v1.7.0
-	github.com/yuin/goldmark v1.7.0
+	github.com/yuin/goldmark v1.7.4
 )
 
 require (
