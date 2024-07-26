@@ -17,6 +17,7 @@ func Run() error {
 	rootAbs = strings.ReplaceAll(rootAbs, "\\", "/")
 
 	config := global.ConfigType{
+		RootRelativePath: ".",
 		RootAbsolutePath: rootAbs,
 	}
 	global.SetGlobalConfig(config)
