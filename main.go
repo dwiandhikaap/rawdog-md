@@ -3,39 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"rawdog-md/commands"
 )
-
-func repeatingNonsense(ch chan int, value int, wait time.Duration) {
-	for {
-		time.Sleep(wait * time.Second)
-		ch <- value
-	}
-}
-
-func main2() {
-	ch1 := make(chan int)
-	ch2 := make(chan int)
-
-	go repeatingNonsense(ch1, 420, 1)
-	go repeatingNonsense(ch1, 69, 3)
-
-	go func() {
-		for {
-			fmt.Println("Waiting for value...")
-			select {
-			case v1 := <-ch1:
-				fmt.Println(v1)
-			case v2 := <-ch2:
-				fmt.Println(v2)
-			}
-		}
-	}()
-
-	<-make(chan int)
-}
 
 func main() {
 	args := os.Args[1:]
