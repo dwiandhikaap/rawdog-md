@@ -13,7 +13,13 @@ func NewContexts(pages []Page) map[string]Context {
 	for _, page := range pages {
 		pageMap := make(map[string]any)
 
-		pageMap["$url"] = page.RelativeUrl
+		// Remove leading slash from URL
+		url := page.RelativeUrl
+		if len(url) > 0 && url[0] == '/' {
+			url = url[1:]
+		}
+
+		pageMap["$url"] = url
 		pageMap["$type"] = page.Type.String()
 		pageMap["$filename"] = helper.OmitFilenameExtension(page.Filename)
 		pageMap["$body"] = page.Body
@@ -30,8 +36,15 @@ func NewContexts(pages []Page) map[string]Context {
 	contexts := make(map[string]Context)
 	for _, page := range pages {
 		context := make(Context)
+
+		// Remove leading slash from URL
+		url := page.RelativeUrl
+		if len(url) > 0 && url[0] == '/' {
+			url = url[1:]
+		}
+
 		context["$pages"] = pagesContext
-		context["$url"] = page.RelativeUrl
+		context["$url"] = url
 		context["$type"] = page.Type.String()
 		context["$filename"] = helper.OmitFilenameExtension(page.Filename)
 		context["$body"] = raymond.SafeString(page.Body)
