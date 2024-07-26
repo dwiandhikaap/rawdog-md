@@ -7,10 +7,119 @@ import (
 	"path/filepath"
 	"rawdog-md/global"
 	"rawdog-md/helper"
+	"strings"
 )
 
-func LoadProject() (*[]Page, error) {
-	pagesDir, err := LoadPages()
+type Project struct {
+	Pages  []Page
+	Assets []string
+}
+
+func (p *Project) Render() error {
+	for i := range p.Pages {
+		err := p.Pages[i].Reload()
+		if err != nil {
+			return err
+		}
+	}
+
+	context := NewContexts(p.Pages)
+
+	for i := range p.Pages {
+		err := p.Pages[i].Render(context)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (p *Project) WritePages() error {
+	err := WritePages(&p.Pages)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (p *Project) CopyStaticFiles() error {
+	err := CopyStaticFiles()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (p *Project) PurgeBuildDir() error {
+	buildDirAbs := filepath.Join(global.Config.RootAbsolutePath, "build")
+
+	// Check if build directory exists
+	_, err := os.Stat(buildDirAbs)
+	if os.IsNotExist(err) {
+		return nil
+	}
+
+	// Check if dir is not important to prevent accidental deletion
+	if buildDirAbs == "/" || buildDirAbs == "~" || buildDirAbs == "" {
+		return fmt.Errorf("build directory is important, refusing to delete")
+	}
+
+	// More check so we dont fuck up like valve did
+	actualRootAbs, err := filepath.Abs(global.Config.RootRelativePath)
+	if err != nil {
+		return err
+	}
+
+	actualRootAbs = strings.ReplaceAll(actualRootAbs, "\\", "/")
+
+	if actualRootAbs != global.Config.RootAbsolutePath {
+		return fmt.Errorf("project root path \"%s\", doesnt not equal current working dir \"%s\"", global.Config.RootAbsolutePath, actualRootAbs)
+	}
+
+	// scaryyyyyy
+	err = os.RemoveAll(buildDirAbs)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (p *Project) ForceBuild() error {
+	pages, err := LoadPages()
+	if err != nil {
+		return err
+	}
+
+	p.Pages = *pages
+
+	err = p.PurgeBuildDir()
+	if err != nil {
+		return err
+	}
+
+	p.WritePages()
+	p.CopyStaticFiles()
+
+	return nil
+}
+
+func NewProject() (*Project, error) {
+	pages, err := LoadPages()
+	if err != nil {
+		return nil, err
+	}
+
+	return &Project{
+		Pages: *pages,
+	}, nil
+}
+
+func LoadPages() (*[]Page, error) {
+	pagesDir, err := GetPagesPath()
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +138,7 @@ func LoadProject() (*[]Page, error) {
 
 		if page.TemplateName != nil {
 			if _, ok := templates[*page.TemplateName]; !ok {
-				template, err := LoadTemplate(global.Config.RootRelativePath, *page.TemplateName)
+				template, err := LoadTemplate(global.Config.RootAbsolutePath, *page.TemplateName)
 				if err != nil {
 					return nil, fmt.Errorf("error loading template '%s': %v", *page.TemplateName, err)
 				}
@@ -56,7 +165,7 @@ func LoadProject() (*[]Page, error) {
 	return &pages, nil
 }
 
-func LoadPages() (*[]string, error) {
+func GetPagesPath() (*[]string, error) {
 	pages := make([]string, 0)
 
 	pagesDirAbs := filepath.Join(global.Config.RootAbsolutePath, "pages")
@@ -80,12 +189,8 @@ func LoadPages() (*[]string, error) {
 	return &pages, nil
 }
 
-func LoadTemplate(rootRelativePath string, templateName string) (*Template, error) {
-	templatePath := filepath.Join(rootRelativePath, "templates", templateName)
-	templatePathAbs, err := filepath.Abs(templatePath)
-	if err != nil {
-		return nil, err
-	}
+func LoadTemplate(root string, templateName string) (*Template, error) {
+	templatePathAbs := filepath.Join(root, "templates", templateName)
 
 	fileContent, err := os.ReadFile(templatePathAbs)
 	if err != nil {

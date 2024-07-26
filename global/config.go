@@ -2,8 +2,8 @@ package global
 
 // create global variable to store the global config
 type ConfigType struct {
-	RootAbsolutePath string
 	RootRelativePath string
+	RootAbsolutePath string
 }
 
 var Config ConfigType

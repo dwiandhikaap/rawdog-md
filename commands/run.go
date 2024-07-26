@@ -1,14 +1,15 @@
 package commands
 
 import (
-	"path/filepath"
+	"fmt"
+	"os"
 	"rawdog-md/global"
 	"rawdog-md/internal"
 	"strings"
 )
 
-func Run(relativePath string) error {
-	rootAbs, err := filepath.Abs(relativePath)
+func Run() error {
+	rootAbs, err := os.Getwd()
 	if err != nil {
 		return err
 	}
@@ -16,17 +17,18 @@ func Run(relativePath string) error {
 	rootAbs = strings.ReplaceAll(rootAbs, "\\", "/")
 
 	config := global.ConfigType{
-		RootRelativePath: relativePath,
 		RootAbsolutePath: rootAbs,
 	}
 	global.SetGlobalConfig(config)
 
-	pages, err := internal.LoadProject()
+	fmt.Println(config)
+
+	project, err := internal.NewProject()
 	if err != nil {
 		return err
 	}
 
-	err = internal.WritePages(pages)
+	err = internal.WritePages(&project.Pages)
 	if err != nil {
 		return err
 	}

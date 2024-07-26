@@ -50,3 +50,11 @@ func WriteTextFile(absolutePath string, content string) error {
 
 	return nil
 }
+
+func IsPathDir(path string) bool {
+	fi, err := os.Stat(path)
+	if err != nil {
+		return false
+	}
+	return fi.IsDir()
+}

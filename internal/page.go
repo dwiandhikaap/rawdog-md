@@ -36,8 +36,59 @@ type Page struct {
 	TemplateName *string
 	Template     *Template
 
-	Body   string
-	Output string
+	Body   string // Rendered body, ready to be used in a template as $body
+	Output string // Final output, ready to write to file
+}
+
+func NewPage(absolutePath string) (*Page, error) {
+	relativePath, err := filepath.Rel(global.Config.RootAbsolutePath, absolutePath)
+	filename := filepath.Base(absolutePath)
+
+	if err != nil {
+		return nil, err
+	}
+
+	Page := &Page{
+		Filename:           filepath.Base(relativePath),
+		SourceRelativePath: relativePath,
+		SourceAbsolutePath: absolutePath,
+	}
+
+	if filepath.Ext(filename) == ".md" {
+		err = loadMarkdown(Page)
+		Page.Type = Markdown
+	} else if filepath.Ext(filename) == ".html" {
+		err = loadHtml(Page)
+		Page.Type = Html
+	} else if filepath.Ext(filename) == ".hbs" {
+		err = loadHandlebars(Page)
+		Page.Type = Handlebars
+	} else {
+		return nil, nil
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return Page, nil
+}
+
+func (p *Page) Reload() error {
+	var err error
+	if filepath.Ext(p.Filename) == ".md" {
+		err = loadMarkdown(p)
+	} else if filepath.Ext(p.Filename) == ".html" {
+		err = loadHtml(p)
+	} else if filepath.Ext(p.Filename) == ".hbs" {
+		err = loadHandlebars(p)
+	}
+
+	if err != nil {
+		return fmt.Errorf("error reloading page '%s': %v", p.SourceAbsolutePath, err)
+	}
+
+	return nil
 }
 
 func (p *Page) Render(contextMap map[string]Context) error {
@@ -49,6 +100,10 @@ func (p *Page) Render(contextMap map[string]Context) error {
 	}
 
 	if p.Type == Markdown {
+		if p.Template == nil {
+			return fmt.Errorf("page '%s' has no template", p.SourceAbsolutePath)
+		}
+
 		html, err := renderHandlebars(p.Template.Content, context)
 		if err != nil {
 			return err
@@ -94,38 +149,6 @@ Output: %s
 	)
 
 	fmt.Println(dump)
-}
-
-func NewPage(absolutePath string) (*Page, error) {
-	relativePath, err := filepath.Rel(global.Config.RootAbsolutePath, absolutePath)
-	filename := filepath.Base(absolutePath)
-
-	if err != nil {
-		return nil, err
-	}
-
-	Page := &Page{
-		Type:               Markdown,
-		Filename:           filepath.Base(relativePath),
-		SourceRelativePath: relativePath,
-		SourceAbsolutePath: absolutePath,
-	}
-
-	if filepath.Ext(filename) == ".md" {
-		err = loadMarkdown(Page)
-	} else if filepath.Ext(filename) == ".html" {
-		err = loadHtml(Page)
-	} else if filepath.Ext(filename) == ".hbs" {
-		err = loadHandlebars(Page)
-	} else {
-		return nil, nil
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	return Page, nil
 }
 
 func loadMarkdown(p *Page) error {
