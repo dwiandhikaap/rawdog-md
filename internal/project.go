@@ -47,7 +47,7 @@ func (p *Project) PurgeBuildDir() error {
 		return fmt.Errorf("build directory is important, refusing to delete")
 	}
 
-	// More check so we dont fuck up like valve did
+	// More check so we dont fuck up like valve did.. hopefully...
 	actualRootAbs, err := filepath.Abs(global.Config.RootRelativePath)
 	if err != nil {
 		return err
@@ -68,9 +68,9 @@ func (p *Project) PurgeBuildDir() error {
 	return nil
 }
 
-// O God, I humbly implore Thee to forgive the cardinal sin I am about to commit against the garbage collector,
-// as I shamefully recreating the entire project anew with each file change, without reusing objects or memory.
 func (p *Project) ForceRebuild() error {
+	// O God, I humbly implore Thee to forgive the cardinal sin I am about to commit against the garbage collector and disk I/O,
+	// as I shamefully recreating the entire project anew with each file change, without reusing objects or memory.
 	pages, err := LoadPages()
 	if err != nil {
 		return err
@@ -90,14 +90,7 @@ func (p *Project) ForceRebuild() error {
 }
 
 func NewProject() (*Project, error) {
-	pages, err := LoadPages()
-	if err != nil {
-		return nil, err
-	}
-
-	return &Project{
-		Pages: *pages,
-	}, nil
+	return &Project{}, nil
 }
 
 func LoadPages() (*[]Page, error) {
@@ -131,6 +124,27 @@ func LoadPages() (*[]Page, error) {
 		}
 
 		pages = append(pages, *page)
+	}
+
+	// Check any conflicting page paths
+	// {"path": ["filename1", "filename2", "filename3", ...]}
+	paths := make(map[string][]string)
+	for _, page := range pages {
+		if _, ok := paths[page.RelativeUrl]; !ok {
+			paths[page.RelativeUrl] = make([]string, 0)
+		}
+		paths[page.RelativeUrl] = append(paths[page.RelativeUrl], page.SourceAbsolutePath)
+	}
+
+	for path, files := range paths {
+		if len(files) > 1 {
+			sourcePaths := ""
+			for _, file := range files {
+				sourcePaths += fmt.Sprintf("\n	'%s', ", file)
+			}
+
+			return nil, fmt.Errorf("conflicting page paths: the following files have the same output path '%s': %s", path, sourcePaths)
+		}
 	}
 
 	contexts := NewContexts(pages)

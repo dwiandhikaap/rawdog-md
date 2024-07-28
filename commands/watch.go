@@ -68,9 +68,9 @@ func Watch(relativePath string) error {
 		log.Fatal(err)
 	}
 
-	err = project.WritePages()
+	err = project.ForceRebuild()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	go runWatcher(pageWatcher, pageWatcherCallback, project)
@@ -203,40 +203,56 @@ func eventRelativeRoot(eventPath string) string {
 }
 
 func pageWriteCallback(eventPath string, project *internal.Project) error {
-	fmt.Println("Modified:", eventRelativeRoot(eventPath))
+	startTime := time.Now()
 	err := project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
 	if err != nil {
+		fmt.Println("Modified:", eventRelativeRoot(eventPath))
 		return fmt.Errorf("build error: %v", err)
 	}
 
+	fmt.Println("Modified:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
 	return nil
 }
 func pageCreateCallback(eventPath string, project *internal.Project) error {
-	fmt.Println("Created:", eventRelativeRoot(eventPath))
+	startTime := time.Now()
 	err := project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
 	if err != nil {
+		fmt.Println("Created:", eventRelativeRoot(eventPath))
 		return fmt.Errorf("build error: %v", err)
 	}
 
+	fmt.Println("Created:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
 	return nil
 }
 func pageRemoveCallback(eventPath string, project *internal.Project) error {
-	fmt.Println("Removed:", eventRelativeRoot(eventPath))
+	startTime := time.Now()
 	err := project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
 	if err != nil {
+		fmt.Println("Removed:", eventRelativeRoot(eventPath))
 		return fmt.Errorf("build error: %v", err)
 	}
 
+	fmt.Println("Removed:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
 	return nil
 }
 
 func pageRenameCallback(eventPath string, project *internal.Project) error {
-	fmt.Println("Renamed:", eventRelativeRoot(eventPath))
+	startTime := time.Now()
 	err := project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
 	if err != nil {
+		fmt.Println("Renamed:", eventRelativeRoot(eventPath))
 		return fmt.Errorf("build error: %v", err)
 	}
 
+	fmt.Println("Renamed:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
 	return nil
 }
 
