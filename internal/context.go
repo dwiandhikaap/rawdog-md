@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"rawdog-md/global"
 	"rawdog-md/helper"
 
 	"github.com/aymerick/raymond"
@@ -44,6 +45,8 @@ func NewContexts(pages []Page) map[string]Context {
 		}
 
 		context["$pages"] = pagesContext
+		context["$buildMode"] = global.Config.BuildMode
+
 		context["$url"] = url
 		context["$type"] = page.Type.String()
 		context["$filename"] = helper.OmitFilenameExtension(page.Filename)

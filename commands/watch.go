@@ -37,6 +37,7 @@ func Watch(relativePath string) error {
 	config := global.ConfigType{
 		RootRelativePath: relativePath,
 		RootAbsolutePath: rootAbs,
+		BuildMode:        global.Development,
 	}
 	global.SetGlobalConfig(config)
 
@@ -103,14 +104,6 @@ func Watch(relativePath string) error {
 	<-make(chan int)
 
 	return nil
-}
-
-// Serve built files
-func serve(dir string, port int) {
-	http.Handle("/", http.FileServer(http.Dir(dir)))
-	portStr := fmt.Sprintf(":%d", port)
-	fmt.Println("Serving on http://localhost" + portStr)
-	http.ListenAndServe(portStr, nil)
 }
 
 func runWatcher(w *fsnotify.Watcher, cb WatcherCallbacks, project *internal.Project) {
@@ -233,6 +226,8 @@ func pageWriteCallback(eventPath string, project *internal.Project) error {
 	}
 
 	fmt.Println("Modified:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
+
 	return nil
 }
 func pageCreateCallback(eventPath string, project *internal.Project) error {
@@ -246,6 +241,7 @@ func pageCreateCallback(eventPath string, project *internal.Project) error {
 	}
 
 	fmt.Println("Created:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
 	return nil
 }
 func pageRemoveCallback(eventPath string, project *internal.Project) error {
@@ -259,6 +255,7 @@ func pageRemoveCallback(eventPath string, project *internal.Project) error {
 	}
 
 	fmt.Println("Removed:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
 	return nil
 }
 
@@ -273,6 +270,7 @@ func pageRenameCallback(eventPath string, project *internal.Project) error {
 	}
 
 	fmt.Println("Renamed:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
 	return nil
 }
 

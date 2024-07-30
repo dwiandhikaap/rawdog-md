@@ -19,6 +19,7 @@ func Run() error {
 	config := global.ConfigType{
 		RootRelativePath: ".",
 		RootAbsolutePath: rootAbs,
+		BuildMode:        global.Release,
 	}
 	global.SetGlobalConfig(config)
 
