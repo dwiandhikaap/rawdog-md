@@ -17,6 +17,8 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
+var watcherServer = internal.NewWatcherServer()
+
 type WatcherCallbacks struct {
 	Write  func(string, *internal.Project) error
 	Create func(string, *internal.Project) error
@@ -96,7 +98,7 @@ func Watch(relativePath string) error {
 	fmt.Println("Watching '" + relativePath + "' for changes...")
 	fmt.Println("Press Ctrl+C to stop.")
 
-	go serve(filepath.Join(relativePath, "build"), 3000) // TODO: Make port configurable
+	go internal.Serve(watcherServer, filepath.Join(relativePath, "build"), 3000) // TODO: Make port configurable
 
 	<-make(chan int)
 

@@ -6,11 +6,12 @@ require (
 	github.com/adrg/frontmatter v0.2.0
 	github.com/aymerick/raymond v2.0.2+incompatible
 	github.com/fsnotify/fsnotify v1.7.0
+	github.com/gorilla/websocket v1.5.3
 	github.com/yuin/goldmark v1.7.4
 )
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
-	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
