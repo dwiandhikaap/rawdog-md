@@ -1,3 +1,9 @@
+---
+title: rawdog-md Readme
+tags: ["rawdog-md", "readme"]
+template: post
+---
+
 # rawdog-md
 
 Caveman-level simple, minimal Markdown-to-HTML static blog tooling with minimal configuration.
