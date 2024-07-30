@@ -275,11 +275,16 @@ func pageRenameCallback(eventPath string, project *internal.Project) error {
 }
 
 func assetCallback(eventPath string, project *internal.Project) error {
-	fmt.Println("Static file changes", eventRelativeRoot(eventPath))
+	startTime := time.Now()
 	err := project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
 	if err != nil {
+		fmt.Println("Static file changes", eventRelativeRoot(eventPath))
 		return fmt.Errorf("build error: %v", err)
 	}
 
+	fmt.Println("Static file changes", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
 	return nil
 }
