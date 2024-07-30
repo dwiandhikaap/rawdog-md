@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
-	"net/http"
+	"math"
 	"os"
 	"path/filepath"
 	"rawdog-md/global"
 	"rawdog-md/helper"
 	"rawdog-md/internal"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/fsnotify/fsnotify"
@@ -111,56 +112,73 @@ func serve(dir string, port int) {
 }
 
 func runWatcher(w *fsnotify.Watcher, cb WatcherCallbacks, project *internal.Project) {
-	lastEvent := time.Now()
+	mu := sync.Mutex{}
+	timers := make(map[string]*time.Timer)
+
 	for {
 
 		select {
-		case event, ok := <-w.Events:
-			if !ok {
-				return
-			}
-
-			if time.Since(lastEvent) < 200*time.Millisecond {
-				continue
-			}
-
-			var err error = nil
-			if event.Op&fsnotify.Write == fsnotify.Write {
-				// If there is a new directory, add it to the watcher
-				if helper.IsPathDir(event.Name) {
-					err := registerWatcherWalk(w, event.Name)
-					if err != nil {
-						log.Fatal(err)
-					}
-				}
-
-				err = cb.Write(event.Name, project)
-			}
-
-			if event.Op&fsnotify.Create == fsnotify.Create {
-				err = cb.Create(event.Name, project)
-			}
-
-			if event.Op&fsnotify.Remove == fsnotify.Remove {
-				err = cb.Remove(event.Name, project)
-			}
-
-			if event.Op&fsnotify.Rename == fsnotify.Rename {
-				err = cb.Rename(event.Name, project)
-			}
-
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			lastEvent = time.Now()
 		case err, ok := <-w.Errors:
 			if !ok {
 				return
 			}
 			fmt.Println("Error:", err)
+
+		case event, ok := <-w.Events:
+			if !ok {
+				return
+			}
+
+			mu.Lock()
+			t, ok := timers[event.Name]
+			mu.Unlock()
+
+			if !ok {
+				t = time.AfterFunc(math.MaxInt64, func() {
+					mu.Lock()
+					delete(timers, event.Name)
+					mu.Unlock()
+
+					time.Sleep(10 * time.Millisecond)
+
+					var err error = nil
+					if event.Op&fsnotify.Write == fsnotify.Write {
+						// If there is a new directory, add it to the watcher
+						if helper.IsPathDir(event.Name) {
+							err := registerWatcherWalk(w, event.Name)
+							if err != nil {
+								log.Fatal(err)
+							}
+						}
+
+						err = cb.Write(event.Name, project)
+					}
+
+					if event.Op&fsnotify.Create == fsnotify.Create {
+						err = cb.Create(event.Name, project)
+					}
+
+					if event.Op&fsnotify.Remove == fsnotify.Remove {
+						err = cb.Remove(event.Name, project)
+					}
+
+					if event.Op&fsnotify.Rename == fsnotify.Rename {
+						err = cb.Rename(event.Name, project)
+					}
+
+					if err != nil {
+						fmt.Println(err)
+					}
+				})
+				t.Stop()
+
+				mu.Lock()
+				timers[event.Name] = t
+				mu.Unlock()
+			}
+
+			t.Reset(100 * time.Millisecond)
 		}
-		time.Sleep(100 * time.Millisecond)
 	}
 }
 
