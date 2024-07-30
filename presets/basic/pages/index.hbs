@@ -1,17 +1,21 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="style.css">
         <title>Handlebars Page</title>
+        {{#equal $buildMode "development"}}
+        <script src="/watcher.js" defer></script>
+        {{/equal}}
     </head>
     <body>
-    <h1>First off, Handlebars</h1>
-    <h2>This is a <a href="https://handlebarsjs.com/">Handlebars</a> Page</h1>
+    <h1>rawdog-md</h1>
+    <h3>This is a <a href="https://handlebarsjs.com/">Handlebars</a> Page</h3>
     <p>The purpose of this Handlebars page is to generate an HTML file with Handlebars that consumes contexts created from the <code>pages</code> directory. 
     <br> This is useful for creating a separate page, like a Home page that contains a list of blog posts like this:</p>
 
-    <h2>List of Markdown Posts</h2>
+    <h5>List of Markdown Posts</h5>
     <ul>
     {{#each $pages}}
         {{#if title}}
@@ -22,7 +26,7 @@
 
     <p>Contexts are special variables that are available in all Handlebars files, including those in the templates directory and the <code>pages</code> directory.</p>
 
-    <h2>Default Contexts Provided by rawdog-md™</h2>
+    <h3>Default Contexts Provided by rawdog-md™</h3>
     <ul>
         <li><strong>$url:</strong> The URL of the current page</li>
         <li><strong>$type:</strong> The type of the current page. It can be <code>Markdown</code>, <code>Handlebars</code>, or <code>HTML</code></li>
@@ -46,8 +50,8 @@
 
     <p>Note that default contexts start with <code>$</code> to avoid conflicts with user-defined contexts. However, you can override it if you really want to by using the same name with the <code>$</code> prefix.</p>
 
-    <h2>Raw HTML</h2>
-    <p>If you don't need contexts, you can use raw HTML content in the Handlebars file. It will be rendered as is.</p>
+    <h3>Raw HTML</h3>
+    <p>If you don't need contexts or dynamic content, you can use raw HTML content in the Handlebars file. It will be rendered as is.</p>
     <p>This is useful for things like 'Not Found' page, where you don't need any dynamic content.</p>
     <p>Go to <a href="not_found.html">Not Found</a> page example</p>
     </body>

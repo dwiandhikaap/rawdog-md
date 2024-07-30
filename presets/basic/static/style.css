@@ -1,82 +1,125 @@
-@import "furtive-print";
-@import "furtive-typescale";
-@import "furtive-responsive-utils";
-
-@import url(http://fonts.googleapis.com/css?family=Merriweather:300italic,300);
-
-html {
-  font-size: 18px;
-  max-width: 100%;
-}
-
-body {
-  color: #e0e0e0; /* Light text color for dark background */
-  background-color: #121212; /* Dark background */
-  font-family: 'Merriweather', Georgia, serif;
-  margin: 0;
-  max-width: 100%;
-}
-
-/* === A bit of a gross hack so we can have bleeding divs/blockquotes. */
-p,
-*:not(div):not(img):not(body):not(html):not(li):not(blockquote):not(p) {
-  margin: 1rem auto 1rem;
-  max-width: 36rem;
-  padding: .25rem;
-}
-
-div {
-  width: 100%;
-}
-
-div img {
-  width: 100%;
-}
-
-blockquote p {
-  font-size: 1.5rem;
-  font-style: italic;
-  margin: 1rem auto 1rem;
-  max-width: 48rem;
-  color: #b0b0b0; /* Slightly lighter color for blockquote text */
-}
-
-li {
-  margin-left: 2rem;
-}
-
-/* Counteract the specificity of the gross *:not() chain. */
-h1 {
-  padding: 4rem 0 !important;
-  color: #ffffff; /* White color for headings */
-}
-/*  === End gross hack */
-
-p {
-  color: #e0e0e0; /* Light paragraph text */
-  height: auto;
+/* Base styles for light mode */
+html, body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #ffffff; /* Light background */
+  color: #333333; /* Dark text */
   line-height: 1.45;
+  margin: 1rem auto;
+  max-width: 48rem;
+  padding: .25rem;
+  font-size: 18px;
 }
 
 pre, code {
-  font-family: Menlo, Monaco, "Courier New", monospace;
-  color: #f8f8f2; /* Light color for code text */
+  line-height: 1.15;
+  overflow-x: auto; /* Changed to auto for better usability */
+  background-color: #f0f0f0; /* Light gray for code */
+  font-size: 0.9rem;
+  color: #333333; /* Dark text for code */
 }
 
-pre {
-  background-color: #282a36; /* Dark background for code blocks */
-  font-size: .8rem;
-  overflow-x: scroll;
-  padding: 1.125em;
+a {
+  color: #007bff; /* Blue link color */
+  text-decoration: none;
 }
 
-a,
-a:visited {
-  color: #8abeb7; /* Light teal for links */
+a:hover {
+  color: #0056b3; /* Darker blue on hover */
 }
 
-a:hover,
-a:focus,
-a:active {
-  color: #5e8b8b; /* Darker teal for hovered links */
+h1, h2, h3, h4, h5, h6 {
+  margin: 1.414rem 0 .5rem;
+  line-height: 1.42;
+}
+
+h1 { font-size: 4rem; }
+h2 { font-size: 2.8rem; }
+h3 { font-size: 2rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 0.88rem; }
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+blockquote {
+  border-left: 3px solid #007bff; /* Blue border */
+  padding-left: 1rem;
+  color: #333333; /* Dark text in blockquote */
+}
+
+img, canvas, iframe, video, svg, select, textarea {
+  max-width: 100%;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin-top: 24px;
+  padding: 0;
+}
+
+.chip {
+  background-color: #007bff; /* Blue chip background */
+  border-radius: 8px;
+  color: #ffffff; /* White text for chips */
+  padding: 4px 8px;
+  margin: 0 8px 8px 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem; /* Increased padding for mobile */
+    font-size: 16px; /* Slightly smaller font size */
+  }
+
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.2rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.9rem; }
+
+  .chips {
+    justify-content: center; /* Center chips on smaller screens */
+  }
+
+  .chip {
+    margin: 0 4px 4px 0; /* Adjusted margin for smaller screens */
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background-color: #1e1e1e; /* Dark background */
+    color: #e0e0e0; /* Light gray text */
+  }
+
+  pre, code {
+    background-color: #2c2c2c; /* Slightly lighter than body */
+    color: #f8f8f2; /* Light text for code */
+  }
+
+  a {
+    color: #66d9ef; /* Cyan link color */
+  }
+
+  a:hover {
+    color: #00809c; /* Lighter cyan on hover */
+  }
+
+  blockquote {
+    border-left: 3px solid #66d9ef; /* Cyan border */
+    color: #f8f8f2; /* Light text in blockquote */
+  }
+
+  .chip {
+    background-color: #66d9ef; /* Cyan chip background */
+    color: #1e1e1e; /* Dark text for chips */
+  }
 }

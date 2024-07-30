@@ -1,5 +1,6 @@
 ---
 title: Basic Markdown Test
+tags: ["markdown", "tutorial"]
 template: post
 ---
 
@@ -133,16 +134,16 @@ Output:
 For multi-line code blocks, use triple backticks:
 
 Source:
-```markdown
+~~~markdown
 ```
 function test() {
   console.log("Hello, World!");
 }
 ```
-```
+~~~
 
 Output:
-```
+```js
 function test() {
   console.log("Hello, World!");
 }
