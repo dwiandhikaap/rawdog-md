@@ -35,3 +35,6 @@ rawdog-md is available on Windows, Linux and Mac. You can install it via package
     - [ ] Make dev port configurable
     - [ ] Enforce `date` property in frontmatter to sort posts
     - [ ] Add some handlebars helpers for common tasks like comparing value, sorting, etc.
+
+## Known Issues
+- If you use VSCode as your editor and you're using auto save, set you delay longer than rebuild time. Otherwise, you might get an empty page because VSCode touches the file twice. See [this issue](https://github.com/microsoft/vscode/issues/9419).
