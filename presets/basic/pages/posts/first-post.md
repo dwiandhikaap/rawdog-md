@@ -1,6 +1,6 @@
 ---
 title: "Language Test"
-date: "2024-01-01"
+date: "2024-01-01 01:00:00"
 tags: ["chinese", "japanese"]
 published: true
 template: "post"

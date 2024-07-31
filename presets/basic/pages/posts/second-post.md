@@ -1,5 +1,6 @@
 ---
 title: Basic Markdown Test
+date: "2024-01-01 02:00:00"
 tags: ["markdown", "tutorial"]
 template: post
 ---

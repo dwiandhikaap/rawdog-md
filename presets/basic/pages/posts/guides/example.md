@@ -1,6 +1,6 @@
 ---
 title: "How to calculate the area of a circle"
-date: "2024-01-01 12:00:00"
+date: "2024-01-01 00:00:00"
 tags: ["guide", "maths", "circle"]
 published: true
 template: "post"

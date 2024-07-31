@@ -17,11 +17,17 @@
 
     <h5>List of Markdown Posts</h5>
     <ul>
-    {{#each $pages}}
-        {{#if title}}
-            <li><a href="{{$url}}">{{title}}</a></li>
-        {{/if}}
-    {{/each}}
+    {{#withSortByDate $pages "date" "desc"}}
+        {{#withFilter this "$type" "markdown"}}
+            {{#each this}}
+                {{#with this}}
+                <li>
+                    <a href="{{$url}}">{{title}}</a><span style="font-size: 11px;"> • {{date}}</span>
+                </li>
+                {{/with}}
+            {{/each}}
+        {{/withFilter}}
+    {{/withSortByDate}}
     </ul>
 
     <p>Contexts are special variables that are available in all Handlebars files, including those in the templates directory and the <code>pages</code> directory.</p>
