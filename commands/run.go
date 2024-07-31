@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"os"
 	"rawdog-md/global"
 	"rawdog-md/internal"
@@ -22,8 +21,6 @@ func Run() error {
 		BuildMode:        global.Release,
 	}
 	global.SetGlobalConfig(config)
-
-	fmt.Println(config)
 
 	project, err := internal.NewProject()
 	if err != nil {
