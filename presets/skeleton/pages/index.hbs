@@ -17,7 +17,6 @@
     {{#withSortByDate $pages "date" "desc"}}
         {{#withFilter this "$type" "markdown"}}
             {{#each this}}
-                {{!-- <li><a href="{{$url}}">{{title}}</a>posted at {{date}}</li> --}}
                 <li>
                     <a href="{{$url}}">{{title}}</a> <span>({{date}})</span>
                 </li>
