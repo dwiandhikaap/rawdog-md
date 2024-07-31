@@ -2,8 +2,8 @@ package presets
 
 import "embed"
 
-//go:embed basic
+//go:embed all:basic
 var BasicPreset embed.FS
 
-//go:embed skeleton
+//go:embed all:skeleton
 var SkeletonPreset embed.FS
