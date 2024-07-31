@@ -3,6 +3,7 @@ package internal
 import (
 	"rawdog-md/global"
 	"rawdog-md/helper"
+	"strings"
 
 	"github.com/aymerick/raymond"
 )
@@ -21,7 +22,7 @@ func NewContexts(pages []Page) map[string]Context {
 		}
 
 		pageMap["$url"] = url
-		pageMap["$type"] = page.Type.String()
+		pageMap["$type"] = strings.ToLower(page.Type.String())
 		pageMap["$filename"] = helper.OmitFilenameExtension(page.Filename)
 		pageMap["$body"] = page.Body
 
@@ -48,7 +49,7 @@ func NewContexts(pages []Page) map[string]Context {
 		context["$buildMode"] = global.Config.BuildMode
 
 		context["$url"] = url
-		context["$type"] = page.Type.String()
+		context["$type"] = strings.ToLower(page.Type.String())
 		context["$filename"] = helper.OmitFilenameExtension(page.Filename)
 		context["$body"] = raymond.SafeString(page.Body)
 
