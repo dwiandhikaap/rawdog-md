@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    {{#equal $buildMode "development"}}
+    <script src="/watcher.js" defer></script>
+    {{/equal}}
+    <title>Home</title>
+</head>
+<body>
+    <h1>My Blog</h1>
+    <p>Welcome to my blog</p>
+    <h5>Posts</h5>
+    <ul>
+    {{#withSortByDate $pages "date" "desc"}}
+        {{#withFilter this "$type" "markdown"}}
+            {{#each this}}
+                {{!-- <li><a href="{{$url}}">{{title}}</a>posted at {{date}}</li> --}}
+                <li>
+                    <a href="{{$url}}">{{title}}</a> <span>({{date}})</span>
+                </li>
+            {{/each}}
+        {{/withFilter}}
+    {{/withSortByDate}}
+    </ul>
+</body>
+</html>
