@@ -110,7 +110,16 @@ func main() {
 		err = commands.Init(projectName, preset)
 		if err != nil {
 			fmt.Println(err)
+			return
 		}
+
+		fmt.Printf("Project initialized at './%s' with preset '%s'\n", projectName, preset)
+		fmt.Println("\nRun the following commands to get started:")
+		fmt.Println("  cd", projectName)
+		fmt.Println("\n(Optional, if you want to use git):")
+		fmt.Println("  git init")
+		fmt.Println("\nBegin development:")
+		fmt.Println("  rawd watch")
 
 		return
 	}
