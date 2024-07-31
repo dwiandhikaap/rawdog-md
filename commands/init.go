@@ -51,18 +51,7 @@ func Init(relativePath string, preset string) error {
 		}
 
 		// Open file
-		file, err := presetFs.Open(path)
-		if err != nil {
-			return err
-		}
-
-		fileInfo, err := file.Stat()
-		if err != nil {
-			return err
-		}
-
-		fileContent := make([]byte, fileInfo.Size())
-		_, err = file.Read(fileContent)
+		fileContent, err := presetFs.ReadFile(path)
 		if err != nil {
 			return err
 		}
@@ -87,12 +76,7 @@ func Init(relativePath string, preset string) error {
 		}
 
 		// Write file
-		err = os.WriteFile(abs, fileContent, os.ModePerm)
-		if err != nil {
-			return err
-		}
-
-		return nil
+		return os.WriteFile(abs, fileContent, os.ModePerm)
 	})
 
 	if err != nil {
