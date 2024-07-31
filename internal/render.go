@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"sort"
 
+	"github.com/araddon/dateparse"
 	"github.com/aymerick/raymond"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
@@ -82,20 +83,31 @@ func init() {
 		}
 
 		sort.Slice(context, func(i, j int) bool {
-			iDate, ok := context[i].(map[string]interface{})[key].(string)
+			iDateStr, ok := context[i].(map[string]interface{})[key].(string)
 			if !ok {
 				return false
 			}
 
-			jDate, ok := context[j].(map[string]interface{})[key].(string)
+			jDateStr, ok := context[j].(map[string]interface{})[key].(string)
 			if !ok {
+				return false
+			}
+
+			iDate, err := dateparse.ParseAny(iDateStr)
+			if err != nil {
+				return false
+			}
+
+			jDate, err := dateparse.ParseAny(jDateStr)
+			if err != nil {
 				return false
 			}
 
 			if order == "desc" {
-				return iDate > jDate
+				return iDate.After(jDate)
 			}
-			return iDate < jDate
+
+			return iDate.Before(jDate)
 		})
 
 		return options.FnWith(context)
