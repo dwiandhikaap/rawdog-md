@@ -65,9 +65,6 @@ func main() {
 		return
 	}
 
-	// use huh
-	// 1. ask for project name for the directory
-	// 2. ask for the preset, options: basic, skeleton
 	if args[0] == "init" {
 		var (
 			projectName string
