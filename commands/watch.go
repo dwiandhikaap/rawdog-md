@@ -106,6 +106,7 @@ func Watch(relativePath string) error {
 	return nil
 }
 
+// TODO: delay rebuild for file rename, create, remove events to prevent multiple unexpected rebuilds
 func runWatcher(w *fsnotify.Watcher, cb WatcherCallbacks, project *internal.Project) {
 	mu := sync.Mutex{}
 	timers := make(map[string]*time.Timer)

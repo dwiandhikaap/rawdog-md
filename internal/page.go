@@ -17,12 +17,12 @@ type PageType int
 
 const (
 	Markdown PageType = iota
-	Handlebars
+	TextTemplate
 	Html
 )
 
 func (p PageType) String() string {
-	return [...]string{"Markdown", "Handlebars", "Html"}[p]
+	return [...]string{"Markdown", "Html", "TextTemplate"}[p]
 }
 
 type Page struct {
@@ -37,7 +37,7 @@ type Page struct {
 	TemplateName *string
 	Template     *Template
 
-	Body   string // Rendered body, ready to be used in a template as $body
+	Body   string // Rendered body, ready to be used in a template as Body
 	Output string // Final output, ready to write to file
 }
 
@@ -61,9 +61,9 @@ func NewPage(absolutePath string) (*Page, error) {
 	} else if filepath.Ext(filename) == ".html" {
 		err = loadHtml(Page)
 		Page.Type = Html
-	} else if filepath.Ext(filename) == ".hbs" {
-		err = loadHandlebars(Page)
-		Page.Type = Handlebars
+	} else if filepath.Ext(filename) == ".templ" {
+		err = loadTextTemplate(Page)
+		Page.Type = TextTemplate
 	} else {
 		return nil, nil
 	}
@@ -81,8 +81,8 @@ func (p *Page) Reload() error {
 		err = loadMarkdown(p)
 	} else if filepath.Ext(p.Filename) == ".html" {
 		err = loadHtml(p)
-	} else if filepath.Ext(p.Filename) == ".hbs" {
-		err = loadHandlebars(p)
+	} else if filepath.Ext(p.Filename) == ".templ" {
+		err = loadTextTemplate(p)
 	}
 
 	if err != nil {
@@ -111,7 +111,7 @@ func (p *Page) Render(contextMap map[string]Context) error {
 			return fmt.Errorf("page '%s' has no template", p.SourceAbsolutePath)
 		}
 
-		html, err := renderHandlebars(p.Template.Content, context)
+		html, err := renderTextTemplate(p.Template.Content, context)
 		if err != nil {
 			return err
 		}
@@ -120,8 +120,8 @@ func (p *Page) Render(contextMap map[string]Context) error {
 		return nil
 	}
 
-	if p.Type == Handlebars {
-		html, err := renderHandlebars(p.Template.Content, context)
+	if p.Type == TextTemplate {
+		html, err := renderTextTemplate(p.Template.Content, context)
 		if err != nil {
 			return err
 		}
@@ -179,7 +179,7 @@ func loadMarkdown(p *Page) error {
 
 	p.Frontmatter = &fm
 
-	templateName := fm["template"].(string) + ".hbs"
+	templateName := fm["Template"].(string) + ".templ"
 	p.TemplateName = &templateName
 
 	relativePath := p.SourceRelativePath
@@ -220,7 +220,7 @@ func loadHtml(p *Page) error {
 	return nil
 }
 
-func loadHandlebars(p *Page) error {
+func loadTextTemplate(p *Page) error {
 	fileContent, err := os.ReadFile(p.SourceAbsolutePath)
 	if err != nil {
 		return err
@@ -231,11 +231,11 @@ func loadHandlebars(p *Page) error {
 		Filename:     p.Filename,
 		Content:      string(fileContent),
 	}
-	p.Body = "" // Handlebars files have no body as it will be treated as a template under the hood.. i guess..
+	p.Body = "" // Text templates have no body as it will be treated as a template under the hood.. i guess..
 
 	var fm Frontmatter
 
-	format := frontmatter.NewFormat("{{!-- fm-yaml-start", "fm-yaml-end --}}", yaml.Unmarshal)
+	format := frontmatter.NewFormat("{{/* fm-yaml-start", "fm-yaml-end */}}", yaml.Unmarshal)
 
 	reader := strings.NewReader(string(fileContent))
 	_, err = frontmatter.Parse(reader, &fm, format)
@@ -257,8 +257,8 @@ func validateFrontmatter(frontmatter Frontmatter) error {
 		return fmt.Errorf("markdown file must contain frontmatter")
 	}
 
-	if _, ok := frontmatter["template"]; !ok {
-		return fmt.Errorf("frontmatter must contain a 'template' field")
+	if _, ok := frontmatter["Template"]; !ok {
+		return fmt.Errorf("frontmatter must contain a 'Template' field")
 	}
 
 	return nil

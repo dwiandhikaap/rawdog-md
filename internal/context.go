@@ -16,15 +16,15 @@ func NewContexts(pages []Page) map[string]Context {
 		pageMap := make(map[string]any)
 
 		// Remove leading slash from URL
-		url := page.RelativeUrl
-		if len(url) > 0 && url[0] == '/' {
-			url = url[1:]
+		path := page.RelativeUrl
+		if len(path) > 0 && path[0] == '/' {
+			path = path[1:]
 		}
 
-		pageMap["$url"] = url
-		pageMap["$type"] = strings.ToLower(page.Type.String())
-		pageMap["$filename"] = helper.OmitFilenameExtension(page.Filename)
-		pageMap["$body"] = page.Body
+		pageMap["Path"] = path
+		pageMap["Type"] = strings.ToLower(page.Type.String())
+		pageMap["Filename"] = helper.OmitFilenameExtension(page.Filename)
+		pageMap["Body"] = page.Body
 
 		if page.Frontmatter != nil {
 			for k, v := range *page.Frontmatter {
@@ -40,18 +40,18 @@ func NewContexts(pages []Page) map[string]Context {
 		context := make(Context)
 
 		// Remove leading slash from URL
-		url := page.RelativeUrl
-		if len(url) > 0 && url[0] == '/' {
-			url = url[1:]
+		path := page.RelativeUrl
+		if len(path) > 0 && path[0] == '/' {
+			path = path[1:]
 		}
 
-		context["$pages"] = pagesContext
-		context["$buildMode"] = global.Config.BuildMode
+		context["Pages"] = pagesContext
+		context["BuildMode"] = global.Config.BuildMode
 
-		context["$url"] = url
-		context["$type"] = strings.ToLower(page.Type.String())
-		context["$filename"] = helper.OmitFilenameExtension(page.Filename)
-		context["$body"] = raymond.SafeString(page.Body)
+		context["Path"] = path
+		context["Type"] = strings.ToLower(page.Type.String())
+		context["Filename"] = helper.OmitFilenameExtension(page.Filename)
+		context["Body"] = raymond.SafeString(page.Body)
 
 		if page.Frontmatter != nil {
 			for k, v := range *page.Frontmatter {

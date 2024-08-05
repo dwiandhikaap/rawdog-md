@@ -1,6 +1,8 @@
 # rawdog-md
 
-Caveman-level simple, Markdown-to-HTML static blog tooling with minimal configuration. Inspired by [motherfuckingwebsite.com](https://motherfuckingwebsite.com/)
+Caveman-level simple, Markdown-to-HTML static blog tooling with minimal configuration. 
+
+Inspired by [motherfuckingwebsite.com](https://motherfuckingwebsite.com/), uses [Go Template](https://pkg.go.dev/text/template) and HTML under the hood.
 
 ## 👍 You might want to use this if:
 - You want to write your blog posts in markdown.
@@ -49,7 +51,6 @@ rawdog-md is available on Windows, Linux and Mac. You can install it via package
 - [ ] Add usage instructions
 - [ ] Make dev port configurable
 - [ ] Enforce `date` property in frontmatter to sort posts
-- [x] (In Progress) Add some handlebars helpers for common tasks like comparing value, sorting, etc.
 - [ ] Add option to parse codeblocks deeper so we don't need JS to highlight code and use CSS only
 
 ## ⚠ Known Issues
