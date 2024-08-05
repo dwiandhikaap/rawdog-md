@@ -23,6 +23,8 @@ func Init(relativePath string, preset string) error {
 	switch preset {
 	case "basic":
 		presetFs = presets.BasicPreset
+	case "docs":
+		presetFs = presets.DocsPreset
 	default:
 		presetFs = presets.SkeletonPreset
 	}

@@ -93,6 +93,7 @@ func main() {
 					Options(
 						huh.NewOption("skeleton - very minimal setup to get going", "skeleton"),
 						huh.NewOption("basic - basic setup with a few pages and styling", "basic"),
+						huh.NewOption("docs - documentation setup with side navigation and markdown", "docs"),
 					).
 					Value(&preset),
 			),
