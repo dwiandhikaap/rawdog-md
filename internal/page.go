@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/adrg/frontmatter"
+	"gopkg.in/yaml.v2"
 )
 
 type Frontmatter map[string]any
@@ -201,10 +202,20 @@ func loadHtml(p *Page) error {
 		return err
 	}
 
+	format := frontmatter.NewFormat("<!-- fm-yaml-start", "fm-yaml-end -->", yaml.Unmarshal)
+
+	var fm Frontmatter
+	reader := strings.NewReader(string(fileContent))
+	_, err = frontmatter.Parse(reader, &fm, format)
+	if err != nil {
+		return err
+	}
+
 	p.Body = string(fileContent)
 	p.RelativeUrl = p.SourceRelativePath
 	p.RelativeUrl = strings.Replace(p.RelativeUrl, "\\", "/", -1)
 	p.RelativeUrl = p.RelativeUrl[5:]
+	p.Frontmatter = &fm
 
 	return nil
 }
@@ -222,10 +233,21 @@ func loadHandlebars(p *Page) error {
 	}
 	p.Body = "" // Handlebars files have no body as it will be treated as a template under the hood.. i guess..
 
+	var fm Frontmatter
+
+	format := frontmatter.NewFormat("{{!-- fm-yaml-start", "fm-yaml-end --}}", yaml.Unmarshal)
+
+	reader := strings.NewReader(string(fileContent))
+	_, err = frontmatter.Parse(reader, &fm, format)
+	if err != nil {
+		return err
+	}
+
 	relativePageWithoutExt := p.SourceRelativePath[:len(p.SourceRelativePath)-len(filepath.Ext(p.Filename))]
 	p.RelativeUrl = relativePageWithoutExt + ".html"
 	p.RelativeUrl = strings.Replace(p.RelativeUrl, "\\", "/", -1)
 	p.RelativeUrl = p.RelativeUrl[5:]
+	p.Frontmatter = &fm
 
 	return nil
 }
