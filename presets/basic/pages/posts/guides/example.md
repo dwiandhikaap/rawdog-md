@@ -1,9 +1,9 @@
 ---
-title: "How to calculate the area of a circle"
-date: "2024-01-01 00:00:00"
-tags: ["guide", "maths", "circle"]
-published: true
-template: "post"
+Title: "How to calculate the area of a circle"
+Date: "2024-01-01 00:00:00"
+Tags: ["guide", "maths", "circle"]
+Published: true
+Template: "post"
 ---
 
 # How to calculate the area of a circle
@@ -41,5 +41,3 @@ So, the area of a circle with a radius of 5 units is approximately 78.54 square 
 ## Conclusion
 
 In this guide, we have learned how to calculate the area of a circle using the formula `A = πr^2`. This formula is essential for solving problems related to circles and circular shapes. By following the steps outlined in this guide, you can easily calculate the area of any circle given its radius. Remember to use the value of `π` as approximately 3.14159 for accurate results.
-```
-

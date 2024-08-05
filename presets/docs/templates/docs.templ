@@ -1,0 +1,68 @@
+{{/* fm-yaml-start
+title: "TODO App"
+fm-yaml-end */}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/prism.css">
+    <script src="/prism.js" defer></script>
+    {{ if eq .BuildMode "development" }}
+    <script src="/watcher.js" defer></script>
+    {{ end }}
+    <title>{{ .Title }}</title>
+</head>
+<body class="line-numbers">
+    <div class="sidebar">
+        <h3><a href="/">TODO App</a></h3>
+        {{ range .Pages}}
+            {{ if eq .Section.Name "_root" }}
+                <a href="../{{ .Path }}">{{ .Title }}</a>
+            {{ end }}
+        {{ end }}
+
+        <h4>Usage</h4>
+        <ul>
+            {{ range .Pages}}
+                {{ if eq .Section.Name "Usage" }}
+                    <a href="../{{ .Path }}">{{ .Title }}</a>
+                {{ end }}
+            {{ end }}
+        </ul>
+        <h4>Installation</h4>
+        <ul>
+            {{ range .Pages}}
+                {{ if eq .Section.Name "Installation" }}
+                    <a href="../{{ .Path }}">{{ .Title }}</a>
+                {{ end }}
+            {{ end }}
+        </ul>
+        <h4>Development</h4>
+        <ul>
+            {{ range .Pages}}
+                {{ if eq .Section.Name "Development" }}
+                    <a href="../{{ .Path }}">{{ .Title }}</a>
+                {{ end }}
+            {{ end }}
+        </ul>
+        <h4>Support</h4>
+        <ul>
+            {{ range .Pages}}
+                {{ if eq .Section.Name "Support" }}
+                    <a href="../{{ .Path }}">{{ .Title }}</a>
+                {{ end }}
+            {{ end }}
+        </ul>
+    </div>
+    <div class="content">
+        <div class="chips">
+            {{ range .Tags }}
+                <span class="chip">#{{ . }}</span>
+            {{ end }}
+        </div>
+        {{ .Body }}
+    </div>
+</body>
+</html>

@@ -1,8 +1,8 @@
 ---
-title: Basic Markdown Test
-date: "2024-01-01 02:00:00"
-tags: ["markdown", "tutorial"]
-template: post
+Title: Basic Markdown Test
+Date: "2024-01-01 02:00:00"
+Tags: ["markdown", "tutorial"]
+Template: post
 ---
 
 # Understanding the Basics of Markdown

@@ -1,9 +1,9 @@
 ---
-title: "Language Test"
-date: "2024-01-01 01:00:00"
-tags: ["chinese", "japanese"]
-published: true
-template: "post"
+Title: "Language Test"
+Date: "2024-01-01 01:00:00"
+Tags: ["chinese", "japanese"]
+Published: true
+Template: "post"
 ---
 
 # CJK Test

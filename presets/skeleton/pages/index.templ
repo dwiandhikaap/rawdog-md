@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
-    {{#equal $buildMode "development"}}
+    {{ if eq .BuildMOde "development" }}
     <script src="/watcher.js" defer></script>
-    {{/equal}}
+    {{ end }}
     <title>Home</title>
 </head>
 <body>
@@ -14,15 +14,13 @@
     <p>Welcome to my blog</p>
     <h5>Posts</h5>
     <ul>
-    {{#withSortByDate $pages "date" "desc"}}
-        {{#withFilter this "$type" "markdown"}}
-            {{#each this}}
-                <li>
-                    <a href="{{$url}}">{{title}}</a> <span>({{date}})</span>
-                </li>
-            {{/each}}
-        {{/withFilter}}
-    {{/withSortByDate}}
+    {{ range .Pages }}
+        {{ if eq .Type "markdown" }}
+            <li>
+                <a href="../{{.Path}}">{{.Title}}</a> <span>({{.Date}})</span>
+            </li>
+        {{ end }}
+    {{ end }}
     </ul>
 </body>
 </html>

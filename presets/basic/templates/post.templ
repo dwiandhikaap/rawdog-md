@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/prism.css">
+    <script src="/prism.js" defer></script>
+    {{ if eq .BuildMode "development" }}
+    <script src="/watcher.js" defer></script>
+    {{ end }}
+    <title>{{ .Title }}</title>
+</head>
+<body class="line-numbers">
+    <a href="/">... Go back to home</a>
+    <div class="chips">
+        {{ range .Tags }}
+            <span class="chip">#{{ . }}</span>
+        {{ end }}
+    </div>
+    {{ .Body }}
+</body>
+</html>
