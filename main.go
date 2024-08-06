@@ -39,11 +39,12 @@ func main() {
 	}
 
 	if args[0] == "run" {
+		firstArg := "."
 		if len(args) > 1 {
-			os.Chdir(args[1])
+			firstArg = args[1]
 		}
 
-		err := commands.Run()
+		err := commands.Run(firstArg)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -67,9 +68,10 @@ func main() {
 
 	if args[0] == "init" {
 		var (
-			projectName string
-			preset      string
+			projectName string = "my-blog"
+			preset      string = "basic"
 		)
+
 		form := huh.NewForm(
 			huh.NewGroup(
 				huh.NewInput().
@@ -110,14 +112,6 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-
-		fmt.Printf("Project initialized at './%s' with preset '%s'\n", projectName, preset)
-		fmt.Println("\nRun the following commands to get started:")
-		fmt.Println("  cd", projectName)
-		fmt.Println("\n(Optional, if you want to use git):")
-		fmt.Println("  git init")
-		fmt.Println("\nBegin development:")
-		fmt.Println("  rawd watch")
 
 		return
 	}

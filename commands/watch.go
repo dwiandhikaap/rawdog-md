@@ -14,10 +14,13 @@ import (
 	"sync"
 	"time"
 
+	"github.com/charmbracelet/lipgloss"
 	"github.com/fsnotify/fsnotify"
 )
 
 var watcherServer = internal.NewWatcherServer()
+
+var pathStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#00b0ff"))
 
 type WatcherCallbacks struct {
 	Write  func(string, *internal.Project) error
@@ -96,12 +99,13 @@ func Watch(relativePath string) error {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Watching '" + relativePath + "' for changes...")
 	fmt.Println("Press Ctrl+C to stop.")
 
 	go internal.Serve(watcherServer, filepath.Join(relativePath, "build"), 3000) // TODO: Make port configurable
 
 	<-make(chan int)
+
+	fmt.Println("Shutting down...")
 
 	return nil
 }
@@ -186,7 +190,7 @@ func registerWatcherWalk(watcher *fsnotify.Watcher, path string) error {
 
 		if d.IsDir() {
 			err = watcher.Add(path)
-			fmt.Println("Watching", path)
+			fmt.Println("Watching", pathStyle.Render(path))
 			if err != nil {
 				return err
 			}
@@ -222,11 +226,11 @@ func pageWriteCallback(eventPath string, project *internal.Project) error {
 	durationMs := time.Since(startTime).Milliseconds()
 
 	if err != nil {
-		fmt.Println("Modified:", eventRelativeRoot(eventPath))
+		fmt.Println("Modified:", pathStyle.Render(eventRelativeRoot(eventPath)))
 		return fmt.Errorf("build error: %v", err)
 	}
 
-	fmt.Println("Modified:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	fmt.Println("Modified:", pathStyle.Render(eventRelativeRoot(eventPath)), "(rebuild took", durationMs, "ms)")
 	watcherServer.Broadcast("reload")
 
 	return nil
@@ -237,11 +241,11 @@ func pageCreateCallback(eventPath string, project *internal.Project) error {
 	durationMs := time.Since(startTime).Milliseconds()
 
 	if err != nil {
-		fmt.Println("Created:", eventRelativeRoot(eventPath))
+		fmt.Println("Created:", pathStyle.Render(eventRelativeRoot(eventPath)))
 		return fmt.Errorf("build error: %v", err)
 	}
 
-	fmt.Println("Created:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	fmt.Println("Created:", pathStyle.Render(eventRelativeRoot(eventPath)), "(rebuild took", durationMs, "ms)")
 	watcherServer.Broadcast("reload")
 	return nil
 }
@@ -251,11 +255,11 @@ func pageRemoveCallback(eventPath string, project *internal.Project) error {
 	durationMs := time.Since(startTime).Milliseconds()
 
 	if err != nil {
-		fmt.Println("Removed:", eventRelativeRoot(eventPath))
+		fmt.Println("Removed:", pathStyle.Render(eventRelativeRoot(eventPath)))
 		return fmt.Errorf("build error: %v", err)
 	}
 
-	fmt.Println("Removed:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	fmt.Println("Removed:", pathStyle.Render(eventRelativeRoot(eventPath)), "(rebuild took", durationMs, "ms)")
 	watcherServer.Broadcast("reload")
 	return nil
 }
@@ -266,11 +270,11 @@ func pageRenameCallback(eventPath string, project *internal.Project) error {
 	durationMs := time.Since(startTime).Milliseconds()
 
 	if err != nil {
-		fmt.Println("Renamed:", eventRelativeRoot(eventPath))
+		fmt.Println("Renamed:", pathStyle.Render(eventRelativeRoot(eventPath)))
 		return fmt.Errorf("build error: %v", err)
 	}
 
-	fmt.Println("Renamed:", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	fmt.Println("Renamed:", pathStyle.Render(eventRelativeRoot(eventPath)), "(rebuild took", durationMs, "ms)")
 	watcherServer.Broadcast("reload")
 	return nil
 }
@@ -281,11 +285,11 @@ func assetCallback(eventPath string, project *internal.Project) error {
 	durationMs := time.Since(startTime).Milliseconds()
 
 	if err != nil {
-		fmt.Println("Static file changes", eventRelativeRoot(eventPath))
+		fmt.Println("Static file changes", pathStyle.Render(eventRelativeRoot(eventPath)))
 		return fmt.Errorf("build error: %v", err)
 	}
 
-	fmt.Println("Static file changes", eventRelativeRoot(eventPath), "(rebuild took", durationMs, "ms)")
+	fmt.Println("Static file changes", pathStyle.Render(eventRelativeRoot(eventPath)), "(rebuild took", durationMs, "ms)")
 	watcherServer.Broadcast("reload")
 	return nil
 }

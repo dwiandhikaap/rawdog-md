@@ -1,44 +1,77 @@
 package commands
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/charmbracelet/lipgloss"
+)
 
 func Help() {
-	fmt.Println(`
-Usage: rawd <command> [arguments]
+	style1 := lipgloss.NewStyle()
+	style2 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#ff8dd2"))
 
-Output a friendly greeting
+	style3 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#4a55f2"))
 
-commands:
-	run		   			Run the program
-	watch				Watch the program for changes and re-run
-	init				Initialize a new project
+	style4 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#4a55f2")).
+		Width(12)
 
-Use "rawd help <command>" for more information about a command.`)
+	fmt.Println(style1.Render("Usage: ") +
+		style2.Render("rawd ") +
+		style3.Render("[command] [arguments]") + "\n\n" +
+		style1.Render("Output a friendly greeting") + "\n\n" +
+		style1.Render("commands:") + "\n" +
+		style4.Render("run") +
+		style1.Render("Run the program") + "\n" +
+		style4.Render("watch") +
+		style1.Render("Watch the program for changes and re-run") + "\n" +
+		style4.Render("init") +
+		style1.Render("Initialize a new project") + "\n\n" +
+		style1.Render("Use \"") +
+		style2.Render("rawd help <command>") +
+		style1.Render("\" for more information about a command."))
 }
 
 func HelpRun() {
-	fmt.Println(
-		`Usage: rawd run [path]
+	style1 := lipgloss.NewStyle()
+	style2 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#ff8dd2"))
+	style3 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#4a55f2"))
 
-Run the program
-
-optional arguments:
-	path		Relative path to project directory. Default is the current directory.`)
+	fmt.Println(style1.Render("Usage:") +
+		style2.Render(" rawd run") +
+		style3.Render(" [path]") + "\n\n" +
+		style1.Render("Run the program") + "\n\n" +
+		style1.Render("optional arguments:") + "\n" +
+		style3.Render("	path") +
+		style1.Render("	Relative path to project directory. Default is the current directory."))
 }
 
 func HelpWatch() {
-	fmt.Println(
-		`Usage: rawd watch [path]
-		
-Watch the program for changes and re-run
+	style1 := lipgloss.NewStyle()
+	style2 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#ff8dd2"))
+	style3 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#4a55f2"))
 
-optional arguments:
-	path		Relative path to project directory. Default is the current directory.`)
+	fmt.Println(style1.Render("Usage:") +
+		style2.Render(" rawd watch") +
+		style3.Render(" [path]") + "\n\n" +
+		style1.Render("Watch the program for changes and re-run") + "\n\n" +
+		style1.Render("optional arguments:") + "\n" +
+		style3.Render("	path") +
+		style1.Render("	Relative path to project directory. Default is the current directory."))
 }
 
 func HelpInit() {
-	fmt.Println(
-		`Usage: rawd init
+	style1 := lipgloss.NewStyle()
+	style2 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#ff8dd2"))
 
-Initialize a new project using CLI menu`)
+	fmt.Println(style1.Render("Usage:") +
+		style2.Render(" rawd init") + "\n\n" +
+		style1.Render("Initialize a new project using CLI menu"))
 }
