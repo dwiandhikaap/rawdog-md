@@ -1,7 +1,12 @@
+<div align="center">
+<a href="https://github.com/siveroo/rawdog-md">
+    <img src="https://github.com/siveroo/rawdog-md/blob/main/logo.png" alt="Logo" height="128">
+</a>
+
 <p align="center">
-  <img src="https://github.com/siveroo/rawdog-bd/blob/main/logo.png" height="128">
-  "Less is more"
+"Less is more"
 </p>
+</div>
 
 
 # rawdog-md
