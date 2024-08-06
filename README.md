@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="https://github.com/siveroo/rawdog-bd/blob/main/logo.png" height="128">
+  "Less is more"
+</p>
+
+
 # rawdog-md
 
 Caveman-level simple, Markdown-to-HTML static blog tooling with minimal configuration. 
