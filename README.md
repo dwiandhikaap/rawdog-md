@@ -1,19 +1,18 @@
 <div align="center">
 <a href="https://github.com/dwiandhikaap/rawdog-md">
-    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/logo.png" alt="Logo" height="128">
+    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/logo.png" alt="Logo" height="92">
 </a>
-
+    <br />
+    <br />
 <p align="center">
-"Less is more"
+Caveman-level simple, Markdown-to-HTML static blog tooling with minimal configuration. 
+</p>
+<p align="center">
+Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com</a>, uses <a href="https://pkg.go.dev/text/template">Go Template</a> and HTML under the hood.
 </p>
 </div>
 
 
-# rawdog-md
-
-Caveman-level simple, Markdown-to-HTML static blog tooling with minimal configuration. 
-
-Inspired by [motherfuckingwebsite.com](https://motherfuckingwebsite.com/), uses [Go Template](https://pkg.go.dev/text/template) and HTML under the hood.
 
 ## 👍 You might want to use this if:
 - You want to write your blog posts in markdown.
