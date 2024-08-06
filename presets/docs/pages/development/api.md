@@ -3,7 +3,6 @@ Template: docs
 Title: API Documentation
 Section:
     Name: Development
-    Index: 2
 ---
 
 # API Documentation

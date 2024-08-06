@@ -3,7 +3,6 @@ Template: "docs"
 Title: Installation
 Section:
     Name: Installation
-    Index: 1
 ---
 
 # Installation

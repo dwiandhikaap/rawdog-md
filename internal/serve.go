@@ -56,7 +56,7 @@ func watcherHandler(watcherServer *WatcherServer) func(http.ResponseWriter, *htt
 	return func(w http.ResponseWriter, r *http.Request) {
 		var upgrader = websocket.Upgrader{
 			CheckOrigin: func(r *http.Request) bool {
-				return strings.HasPrefix(r.Host, "localhost")
+				return strings.HasPrefix(r.Host, "localhost") || strings.HasPrefix(r.Host, "127.0.0.1")
 			},
 		}
 		conn, err := upgrader.Upgrade(w, r, nil)

@@ -3,7 +3,6 @@ Template: docs
 Title: Usage
 Section:
     Name: Usage
-    Index: 2
 ---
 
 # Usage

@@ -24,12 +24,14 @@ function connect() {
 					document.open();
 					document.write(html);
 					document.close();
-					// TODO: separate css reload from page reload
-					//reloadCss();
 					autoReconnect = false;
 					ws.close();
 				});
 		} 
+
+		if (event.data === "refreshcss") {
+			reloadCss();
+		}
 	};
 }
 

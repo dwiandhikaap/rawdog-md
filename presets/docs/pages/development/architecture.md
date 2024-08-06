@@ -3,7 +3,6 @@ Template: docs
 Title: Architecture
 Section:
     Name: Development
-    Index: 1
 ---
 
 # Architecture of TODO App

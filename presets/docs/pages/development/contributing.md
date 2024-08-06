@@ -3,7 +3,6 @@ Template: docs
 Title: Contributing
 Section:
     Name: Development
-    Index: 3
 ---
 
 # Contributing to TODO App

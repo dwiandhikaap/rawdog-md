@@ -3,7 +3,6 @@ Template: "docs"
 Title: "Introduction"
 Section:
     Name: "_root"
-    Index: 1
 ---
 # TODO App Documentation
 

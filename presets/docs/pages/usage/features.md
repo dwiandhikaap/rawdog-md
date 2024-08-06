@@ -3,7 +3,6 @@ Template: docs
 Title: Features
 Section:
     Name: Usage
-    Index: 1
 ---
 
 # Features

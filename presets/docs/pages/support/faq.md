@@ -3,7 +3,6 @@ Template: docs
 Title: FAQ
 Section:
     Name: Support
-    Index: 1
 ---
 
 # Frequently Asked Questions (FAQ)

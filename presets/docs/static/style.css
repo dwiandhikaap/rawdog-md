@@ -83,9 +83,13 @@ img, canvas, iframe, video, svg, select, textarea {
   flex: 1; /* Take the remaining space */
   padding: 15px; /* Padding inside the content area */
 }
+.sidebar ul {
+  list-style-type: none; /* Remove list styles */
+  padding: 0; /* Remove default padding */
+}
 .sidebar a {
   display: block; /* Make links block elements */
-  padding: 10px; /* Padding for links */
+  padding: 4px 12px;
   text-decoration: none; /* Remove underline */
 }
 .sidebar a:hover {

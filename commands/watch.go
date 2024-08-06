@@ -290,6 +290,12 @@ func assetCallback(eventPath string, project *internal.Project) error {
 	}
 
 	fmt.Println("Static file changes", pathStyle.Render(eventRelativeRoot(eventPath)), "(rebuild took", durationMs, "ms)")
-	watcherServer.Broadcast("reload")
+	if strings.HasSuffix(eventPath, ".css") {
+		log.Println("Reloading CSS")
+		watcherServer.Broadcast("refreshcss")
+	} else {
+		watcherServer.Broadcast("reload")
+	}
+
 	return nil
 }
