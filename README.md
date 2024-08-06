@@ -50,7 +50,6 @@ rawdog-md is available on Windows, Linux and Mac. You can install it via package
 - [ ] Add installation instructions
 - [ ] Add usage instructions
 - [ ] Make dev port configurable
-- [ ] Enforce `date` property in frontmatter to sort posts
 - [ ] Add option to parse codeblocks deeper so we don't need JS to highlight code and use CSS only
 
 ## ⚠ Known Issues
