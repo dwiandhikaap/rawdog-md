@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/dwiandhikaap/rawd/presets"
+	"rawd/presets"
 
 	"github.com/charmbracelet/lipgloss"
 )

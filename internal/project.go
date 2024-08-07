@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/dwiandhikaap/rawd/global"
-	"github.com/dwiandhikaap/rawd/helper"
+	"rawd/global"
+	"rawd/helper"
 )
 
 type Project struct {

@@ -1,4 +1,6 @@
-module github.com/dwiandhikaap/rawd
+module rawd
+
+replace rawd => github.com/dwiandhikaap/rawd v0.1.1
 
 go 1.21.0
 
