@@ -3,8 +3,8 @@ package internal
 import (
 	"strings"
 
-	"rawd/global"
-	"rawd/helper"
+	"github.com/dwiandhikaap/rawdog-md/global"
+	"github.com/dwiandhikaap/rawdog-md/helper"
 
 	"github.com/aymerick/raymond"
 )

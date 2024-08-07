@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"rawd/global"
-	"rawd/internal"
+	"github.com/dwiandhikaap/rawdog-md/global"
+	"github.com/dwiandhikaap/rawdog-md/internal"
 
 	"github.com/charmbracelet/lipgloss"
 )

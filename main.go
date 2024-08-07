@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"rawd/commands"
+	"github.com/dwiandhikaap/rawdog-md/commands"
 
 	"github.com/charmbracelet/huh"
 )

@@ -1,6 +1,4 @@
-module rawd
-
-replace rawd => github.com/dwiandhikaap/rawd v0.1.1
+module github.com/dwiandhikaap/rawdog-md
 
 go 1.21.0
 

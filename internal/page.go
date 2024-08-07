@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"rawd/global"
-	"rawd/helper"
+	"github.com/dwiandhikaap/rawdog-md/global"
+	"github.com/dwiandhikaap/rawdog-md/helper"
 
 	"github.com/adrg/frontmatter"
 	"gopkg.in/yaml.v2"

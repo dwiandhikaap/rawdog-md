@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"rawd/global"
-	"rawd/helper"
-	"rawd/internal"
+	"github.com/dwiandhikaap/rawdog-md/global"
+	"github.com/dwiandhikaap/rawdog-md/helper"
+	"github.com/dwiandhikaap/rawdog-md/internal"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/fsnotify/fsnotify"
