@@ -37,20 +37,59 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 
 ## 💻 Installation
 rawdog-md is available on Windows, Linux and Mac. You can install it via package managers, manually, or build it from source.
-> 🚧 TODO 🚧
 
 ### Windows
+<details>
+<summary>Install via Scoop</summary>
 
-> 🚧 TODO 🚧
+1. Install [Scoop](https://scoop.sh/)
+2. Install rawdog-md
+    ```shell
+    scoop install https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/package/rawdog-md.json
+    ```
+3. Done! You can now use it as `rawd` command in your terminal.
+</details>
+</br>
+<details>
+<summary>Install manually</summary>
+
+1. Go to the latest [release page](https://github.com/dwiandhikaap/rawdog-md/releases/latest)
+2. Download the one with `rawd-{version}-windows-amd64.zip` filename
+3. Extract the zip file anywhere you like
+4. Add the extracted folder to your PATH. If you don't know how, check out [this guide](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/)
+5. Done! You can now use it as `rawd` command in your terminal.
+
+</details>
 
 ### Linux
-> 🚧 TODO 🚧
+
+1. Go to the latest [release page](https://github.com/dwiandhikaap/rawdog-md/releases/latest)
+2. Copy the URL of the one with `rawd-{version}-linux-{architecture}.tar.gz` filename
+3. Run this command in your terminal
+    ```shell
+    wget {copied-url} -O rawd.tar.gz
+    tar -xvf rawd.tar.gz
+    sudo mv rawd /usr/local/bin
+    rm rawd.tar.gz
+    ```
+4. Done! You can now use it as `rawd` command in your terminal.
 
 ### Mac
 > 🚧 TODO 🚧
 
 ### Build from source
-> 🚧 TODO 🚧
+
+1. Install [Go](https://golang.org/doc/install)
+2. Install rawdog-md
+    ```shell 
+    go install github.com/dwiandhikaap/rawdog-md
+    ```
+    ⚠ This will install the binary as `rawdog-md` instead of `rawd`
+    if you want to change it to `rawd`, you can rename the binary file in your Go bin directory. 
+    
+    See this [reference](https://go.dev/ref/mod#go-install) for more information about `go install`.
+3. Done!
+
 
 ## 🚀 Usage
 > 🚧 TODO 🚧
