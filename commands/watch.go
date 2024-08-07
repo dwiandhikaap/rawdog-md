@@ -7,12 +7,13 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"rawdog-md/global"
-	"rawdog-md/helper"
-	"rawdog-md/internal"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/dwiandhikaap/rawd/global"
+	"github.com/dwiandhikaap/rawd/helper"
+	"github.com/dwiandhikaap/rawd/internal"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/fsnotify/fsnotify"

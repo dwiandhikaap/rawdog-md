@@ -1,4 +1,4 @@
-module rawdog-md
+module github.com/dwiandhikaap/rawd
 
 go 1.21.0
 

@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"rawdog-md/global"
-	"rawdog-md/internal"
 	"strings"
 	"time"
+
+	"github.com/dwiandhikaap/rawd/global"
+	"github.com/dwiandhikaap/rawd/internal"
 
 	"github.com/charmbracelet/lipgloss"
 )

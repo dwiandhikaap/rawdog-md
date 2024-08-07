@@ -6,7 +6,8 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"rawdog-md/presets"
+
+	"github.com/dwiandhikaap/rawd/presets"
 
 	"github.com/charmbracelet/lipgloss"
 )

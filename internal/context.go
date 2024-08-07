@@ -1,9 +1,10 @@
 package internal
 
 import (
-	"rawdog-md/global"
-	"rawdog-md/helper"
 	"strings"
+
+	"github.com/dwiandhikaap/rawd/global"
+	"github.com/dwiandhikaap/rawd/helper"
 
 	"github.com/aymerick/raymond"
 )

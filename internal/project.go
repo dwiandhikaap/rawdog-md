@@ -5,9 +5,10 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"rawdog-md/global"
-	"rawdog-md/helper"
 	"strings"
+
+	"github.com/dwiandhikaap/rawd/global"
+	"github.com/dwiandhikaap/rawd/helper"
 )
 
 type Project struct {
