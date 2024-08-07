@@ -1,9 +1,10 @@
 <div align="center">
 <a href="https://github.com/dwiandhikaap/rawdog-md">
-    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/logo.png" alt="Logo" height="92">
+    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/demo.gif" alt="demo">
 </a>
-    <br />
-    <br />
+<h1 align="center">
+    rawdog-md
+</h1>
 <p align="center">
 Caveman-level simple, Markdown-to-HTML static blog tooling with minimal configuration. 
 </p>
