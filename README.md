@@ -1,6 +1,6 @@
 <div align="center">
 <a href="https://github.com/dwiandhikaap/rawdog-md">
-    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/.docs/demo.gif" alt="demo">
+    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/demo.gif" alt="demo">
 </a>
 <h1 align="center">
     rawdog-md
