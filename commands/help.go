@@ -23,10 +23,10 @@ func Help() {
 		style3.Render("[command] [arguments]") + "\n\n" +
 		style1.Render("Output a friendly greeting") + "\n\n" +
 		style1.Render("commands:") + "\n" +
-		style4.Render("\trun") +
-		style1.Render("Run the program") + "\n" +
+		style4.Render("\tbuild") +
+		style1.Render("Build the project") + "\n" +
 		style4.Render("\twatch") +
-		style1.Render("Watch the program for changes and re-run") + "\n" +
+		style1.Render("Watch the program for changes and re-build") + "\n" +
 		style4.Render("\tinit") +
 		style1.Render("Initialize a new project") + "\n" +
 		style4.Render("\tversion") +
@@ -36,7 +36,7 @@ func Help() {
 		style1.Render("\" for more information about a command."))
 }
 
-func HelpRun() {
+func HelpBuild() {
 	style1 := lipgloss.NewStyle()
 	style2 := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#ff8dd2"))
@@ -45,9 +45,9 @@ func HelpRun() {
 		Width(24)
 
 	fmt.Println(style1.Render("Usage:") +
-		style2.Render(" rawd run") +
+		style2.Render(" rawd build") +
 		style3.Render(" [path]") + "\n\n" +
-		style1.Render("Run the program") + "\n\n" +
+		style1.Render("Build the project") + "\n\n" +
 		style1.Render("optional arguments:") + "\n" +
 		style3.Render("\tpath") +
 		style1.Render("Relative path to project directory. Default is the current directory."))
@@ -64,7 +64,7 @@ func HelpWatch() {
 	fmt.Println(style1.Render("Usage:") +
 		style2.Render(" rawd watch") +
 		style3.Render(" [options] [path]") + "\n\n" +
-		style1.Render("Watch the program for changes and re-run") + "\n\n" +
+		style1.Render("Watch the program for changes and re-build") + "\n\n" +
 		style1.Render("optional arguments:") + "\n" +
 
 		style3.Render("\t-p, --port [port]") +

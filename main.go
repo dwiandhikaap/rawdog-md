@@ -23,8 +23,8 @@ func main() {
 			commands.Help()
 			return
 		}
-		if args[1] == "run" {
-			commands.HelpRun()
+		if args[1] == "build" {
+			commands.HelpBuild()
 			return
 		}
 		if args[1] == "watch" {
@@ -43,7 +43,7 @@ func main() {
 		return
 	}
 
-	if args[0] == "run" {
+	if args[0] == "build" {
 		firstArg := "."
 		if len(args) > 1 {
 			firstArg = args[1]
