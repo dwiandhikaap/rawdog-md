@@ -39,7 +39,9 @@ func main() {
 			commands.HelpVersion()
 			return
 		}
-		fmt.Println("Unknown command \"" + args[1] + "\"")
+
+		commands.Help()
+		fmt.Println("\nUnknown command \"" + args[1] + "\"")
 		return
 	}
 
@@ -148,4 +150,7 @@ func main() {
 		commands.Version()
 		return
 	}
+
+	commands.Help()
+	fmt.Println("\nUnknown command \"" + args[0] + "\"")
 }
