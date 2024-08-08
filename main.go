@@ -35,6 +35,10 @@ func main() {
 			commands.HelpInit()
 			return
 		}
+		if args[1] == "version" {
+			commands.HelpVersion()
+			return
+		}
 		fmt.Println("Unknown command \"" + args[1] + "\"")
 		return
 	}
@@ -137,6 +141,11 @@ func main() {
 			return
 		}
 
+		return
+	}
+
+	if args[0] == "version" {
+		commands.Version()
 		return
 	}
 }

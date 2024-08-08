@@ -28,7 +28,9 @@ func Help() {
 		style4.Render("\twatch") +
 		style1.Render("Watch the program for changes and re-run") + "\n" +
 		style4.Render("\tinit") +
-		style1.Render("Initialize a new project") + "\n\n" +
+		style1.Render("Initialize a new project") + "\n" +
+		style4.Render("\tversion") +
+		style1.Render("Output the version of the program") + "\n\n" +
 		style1.Render("Use \"") +
 		style2.Render("rawd help <command>") +
 		style1.Render("\" for more information about a command."))
@@ -79,4 +81,14 @@ func HelpInit() {
 	fmt.Println(style1.Render("Usage:") +
 		style2.Render(" rawd init") + "\n\n" +
 		style1.Render("Initialize a new project using CLI menu"))
+}
+
+func HelpVersion() {
+	style1 := lipgloss.NewStyle()
+	style2 := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#ff8dd2"))
+
+	fmt.Println(style1.Render("Usage:") +
+		style2.Render(" rawd version") + "\n\n" +
+		style1.Render("Output the version of the program"))
 }
