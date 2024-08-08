@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/dwiandhikaap/rawdog-md/commands"
 
@@ -52,14 +53,37 @@ func main() {
 	}
 
 	if args[0] == "watch" {
-		if len(args) == 1 {
-			err := commands.Watch(".")
-			if err != nil {
-				fmt.Println(err)
+		// eat the first command
+		args = args[1:]
+
+		var port int = 3000
+		for index, arg := range args {
+			if arg == "--port" || arg == "-p" {
+				// need at least 2 arguments (flag and value)
+				if len(args) >= 2 {
+					parsedPort, err := strconv.ParseInt(args[index+1], 10, 32)
+					port = int(parsedPort)
+					if err != nil {
+						fmt.Println("Invalid port number")
+						return
+					}
+
+					// eat the flag and value from the arguments
+					args = append(args[:index], args[index+2:]...)
+				} else {
+					fmt.Println("Port number is unspecified")
+					return
+				}
 			}
-			return
 		}
-		err := commands.Watch(args[1])
+
+		// get last argument
+		path := "."
+		if len(args) > 0 {
+			path = args[len(args)-1]
+		}
+
+		err := commands.Watch(path, port)
 		if err != nil {
 			fmt.Println(err)
 		}

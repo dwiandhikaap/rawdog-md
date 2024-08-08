@@ -30,7 +30,7 @@ type WatcherCallbacks struct {
 	Rename func(string, *internal.Project) error
 }
 
-func Watch(relativePath string) error {
+func Watch(relativePath string, port int) error {
 	rootAbs, err := filepath.Abs(relativePath)
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func Watch(relativePath string) error {
 
 	fmt.Println("Press Ctrl+C to stop.")
 
-	go internal.Serve(watcherServer, filepath.Join(relativePath, "build"), 3000) // TODO: Make port configurable
+	go internal.Serve(watcherServer, filepath.Join(relativePath, "build"), port)
 
 	<-make(chan int)
 
