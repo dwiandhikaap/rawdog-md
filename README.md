@@ -1,6 +1,6 @@
 <div align="center">
 <a href="https://github.com/dwiandhikaap/rawdog-md">
-    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/demo.gif" alt="demo">
+    <img src="https://github.com/dwiandhikaap/rawdog-md/blob/.docs/demo.gif" alt="demo">
 </a>
 <h1 align="center">
     rawdog-md
@@ -40,12 +40,12 @@ rawdog-md is available on Windows, Linux and Mac. You can install it via package
 
 ### Windows
 <details>
-<summary>Install via Scoop</summary>
+<summary>Install via Scoop (Click to expand)</summary>
 
 1. Install [Scoop](https://scoop.sh/)
 2. Install rawdog-md
     ```shell
-    scoop install https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/package/rawdog-md.json
+    scoop install https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/.scoop/rawdog-md.json
     ```
 3. Done! You can now use it as `rawd` command in your terminal.
 
@@ -80,7 +80,25 @@ scoop uninstall rawdog-md
 4. Done! You can now use it as `rawd` command in your terminal.
 
 ### Mac
-> 🚧 TODO 🚧
+<details>
+<summary>Install via Homebrew (Click to expand)</summary>
+Not available yet. :trollface:
+</details>
+
+<details>
+<summary>Install manually</summary>
+    
+1. Go to the latest [release page](https://github.com/dwiandhikaap/rawdog-md/releases/latest)
+2. Copy the URL of the one with `rawd-{version}-darwin-{architecture}.tar.gz` filename
+3. Run this command in your terminal
+    ```shell
+    wget {copied-url} -O rawd.tar.gz
+    tar -xvf rawd.tar.gz
+    sudo mv rawd /usr/local/bin
+    rm rawd.tar.gz
+    ```
+4. Done! You can now use it as `rawd` command in your terminal.
+</details>
 
 ### Build from source
 
@@ -97,14 +115,37 @@ scoop uninstall rawdog-md
 
 
 ## 🚀 Usage
-> 🚧 TODO 🚧
+1. Create a new project and choose a preset template
+    ```shell
+    rawd init
+    ```
+    It will ask you for the project name and the template you want to use. 
 
+2. Then, go to the project directory
+    ```shell
+    cd <your-project-name>
+    ```
 
-## 📝 TODO:
-- [ ] Add installation on readme
-- [ ] Add usage on readme
-- [ ] Make dev port configurable
-- [ ] Add option to parse codeblocks deeper so we don't need JS to highlight code and use CSS only
+3. Start the development server
+    ```shell
+    rawd watch
+    ```
+
+4. Open your browser and go to `http://localhost:3000`
+5. To create a new post, create a new file in the `pages` directory. You can use Markdown, Go Template, or HTML.
+6. To edit the template, go to the `template` directory.
+7. Each time you save your changes, the server will rebuild the site and refresh the browser.
+8. When you're done, build the site
+    ```shell
+    rawd build
+    ```
+
+## 📁 Project Structure
+<!-- https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/project_structure.png -->
+<details>
+<summary>Click to expand</summary>
+<img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/project_structure.png" alt="project structure">
+</details>
 
 ## ⚠ Known Issues
 - If you use VSCode as your editor and you're using auto save, set your auto save delay longer than rebuild duration. Otherwise, you might get an empty page because VSCode touches the file twice. See [this issue](https://github.com/microsoft/vscode/issues/9419).
