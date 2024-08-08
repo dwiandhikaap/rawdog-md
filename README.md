@@ -48,8 +48,13 @@ rawdog-md is available on Windows, Linux and Mac. You can install it via package
     scoop install https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/package/rawdog-md.json
     ```
 3. Done! You can now use it as `rawd` command in your terminal.
+
+How to uninstall:
+```shell
+scoop uninstall rawdog-md
+```
+
 </details>
-</br>
 <details>
 <summary>Install manually</summary>
 
