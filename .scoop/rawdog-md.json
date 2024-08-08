@@ -14,5 +14,6 @@
                 "url": "https://github.com/dwiandhikaap/rawdog-md/releases/download/v$version/rawd-v$version-windows-amd64.zip"
             }
         }
-    }
+    },
+    "checkver": "github"
 }
