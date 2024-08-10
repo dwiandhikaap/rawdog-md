@@ -40,12 +40,24 @@ rawdog-md is available on Windows, Linux and Mac. You can install it via package
 
 ### Windows
 <details>
-<summary>Install via Scoop (Click to expand)</summary>
+<summary>Install via PowerShell (Click to expand)</summary>
+
+1. Open PowerShell as Administrator
+2. Run this command
+    ```shell
+    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+    iex (irm https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/.installer/powershell/install.ps1)
+    ```
+3. Done! You can now use it as `rawd` command in your terminal.
+
+</details>
+<details>
+<summary>Install via Scoop</summary>
 
 1. Install [Scoop](https://scoop.sh/)
 2. Install rawdog-md
     ```shell
-    scoop install https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/.scoop/rawdog-md.json
+    scoop install https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/.installer/scoop/rawdog-md.json
     ```
 3. Done! You can now use it as `rawd` command in your terminal.
 
@@ -68,6 +80,19 @@ scoop uninstall rawdog-md
 
 ### Linux
 
+<details>
+<summary>Install via Bash (Click to expand)</summary>
+
+1. Run this command in your terminal
+    ```shell
+    curl -fsSL https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/.installer/bash/install.sh | bash
+    ```
+2. Done! You can now use it as `rawd` command in your terminal.
+</details>
+
+<details>
+<summary>Install manually</summary>
+
 1. Go to the latest [release page](https://github.com/dwiandhikaap/rawdog-md/releases/latest)
 2. Copy the URL of the one with `rawd-{version}-linux-{architecture}.tar.gz` filename
 3. Run this command in your terminal
@@ -79,10 +104,18 @@ scoop uninstall rawdog-md
     ```
 4. Done! You can now use it as `rawd` command in your terminal.
 
+</details>
+
 ### Mac
 <details>
-<summary>Install via Homebrew (Click to expand)</summary>
-Not available yet. :trollface:
+<summary>Install via Bash (Click to expand)</summary>
+
+1. Run this command in your terminal
+    ```shell
+    curl -fsSL https://raw.githubusercontent.com/dwiandhikaap/rawdog-md/main/.installer/bash/install.sh | bash
+    ```
+2. Done! You can now use it as `rawd` command in your terminal.
+
 </details>
 
 <details>
@@ -102,6 +135,10 @@ Not available yet. :trollface:
 
 ### Build from source
 
+<details>
+
+<summary>Build using Go (Click to expand)</summary>
+
 1. Install [Go](https://golang.org/doc/install)
 2. Install rawdog-md
     ```shell 
@@ -112,6 +149,8 @@ Not available yet. :trollface:
     
     See this [reference](https://go.dev/ref/mod#go-install) for more information about `go install`.
 3. Done!
+
+</details>
 
 
 ## 🚀 Usage
@@ -141,7 +180,6 @@ Not available yet. :trollface:
     ```
 
 ## 📁 Project Structure
-<!-- https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/project_structure.png -->
 <details>
 <summary>Click to expand</summary>
 <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/project_structure.png" alt="project structure">
