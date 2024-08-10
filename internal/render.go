@@ -6,6 +6,9 @@ import (
 
 	"github.com/Masterminds/sprig/v3"
 	"github.com/yuin/goldmark"
+
+	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
+	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
@@ -22,6 +25,13 @@ var md = goldmark.New(
 		extension.Typographer,
 		extension.TaskList,
 		extension.Linkify,
+		highlighting.NewHighlighting(
+			highlighting.WithFormatOptions(
+				chromahtml.WithLineNumbers(true),
+				chromahtml.WithClasses(true),
+			),
+			highlighting.WithGuessLanguage(true),
+		),
 	),
 	goldmark.WithParserOptions(
 		parser.WithAutoHeadingID(),
