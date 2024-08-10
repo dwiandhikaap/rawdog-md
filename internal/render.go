@@ -10,6 +10,7 @@ import (
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	enclave "github.com/quail-ink/goldmark-enclave"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
+	anchor "go.abhg.dev/goldmark/anchor"
 
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
@@ -34,12 +35,18 @@ var md = goldmark.New(
 			),
 			highlighting.WithGuessLanguage(true),
 		),
-		enclave.New(&enclave.Config{
-			DefaultImageAltPrefix: "imggg",
-		}),
+		enclave.New(&enclave.Config{}),
+		&anchor.Extender{
+			Position: anchor.Before,
+			Texter:   anchor.Text("🔗"),
+			Attributer: anchor.Attributes{
+				"class": "anchor",
+			},
+		},
 	),
 	goldmark.WithParserOptions(
 		parser.WithAutoHeadingID(),
+		parser.WithHeadingAttribute(),
 	),
 	goldmark.WithRendererOptions(
 		html.WithHardWraps(),
