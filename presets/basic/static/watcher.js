@@ -3,8 +3,12 @@ function reloadCss()
     document.querySelectorAll("link[rel=stylesheet]").forEach(link => link.href = link.href.replace(/\?.*|$/, "?" + Date.now()))
 }
 
+// Change the port if you are using a different one
+var PORT = 3000;
+
 function connect() {
-	var ws = new WebSocket("ws://localhost:3000/__rawdog-md/watcher");
+	// var ws = new WebSocket("ws://localhost:3000/__rawdog-md/watcher");
+	var ws = new WebSocket("ws://localhost:" + PORT + "/__rawdog-md/watcher");
 	var autoReconnect = true;
 
 	// automatically attempt to reconnect on close
