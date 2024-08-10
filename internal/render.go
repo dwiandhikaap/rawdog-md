@@ -8,7 +8,9 @@ import (
 	"github.com/yuin/goldmark"
 
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
+	enclave "github.com/quail-ink/goldmark-enclave"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
+
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
@@ -32,6 +34,9 @@ var md = goldmark.New(
 			),
 			highlighting.WithGuessLanguage(true),
 		),
+		enclave.New(&enclave.Config{
+			DefaultImageAltPrefix: "imggg",
+		}),
 	),
 	goldmark.WithParserOptions(
 		parser.WithAutoHeadingID(),
