@@ -32,11 +32,11 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 - **Minimal Config**: rawdog-md is designed to be used with minimal configuration. Choose a starter template and immediately start writing your blog posts in markdown.
 - **Opiniated**: This tool is not meant to be a general purpose static site generator. It is meant to be used for a very specific use case, which is a static blog with a few simple templated pages. If you want something more general purpose and more advanced, check out Hugo, Frontmatter, or Jekyll.
 - **Bring your own styling**: rawdog-md provides the minimal styling. However, it is very easy to adjust as it is just a plain CSS and HTML file.
-- **Cross platform**: You can use it on Windows, Linux and Mac. (Need testing on Mac and Linux)
+- **Cross platform**: You can use it on Windows, Linux and MacOS. (Need testing on MacOS and Linux)
 
 
 ## 💻 Installation
-rawdog-md is available on Windows, Linux and Mac. You can install it via package managers, manually, or build it from source.
+rawdog-md is available on Windows, Linux and MacOS. You can install it via package managers, manually, or build it from source.
 
 ### Windows
 <details>
@@ -106,7 +106,7 @@ scoop uninstall rawdog-md
 
 </details>
 
-### Mac
+### MacOS
 <details>
 <summary>Install via Bash (Click to expand)</summary>
 
