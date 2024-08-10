@@ -2,26 +2,18 @@ package commands
 
 import (
 	"fmt"
-	"io/fs"
 	"log"
-	"math"
 	"os"
 	"path/filepath"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/dwiandhikaap/rawdog-md/global"
-	"github.com/dwiandhikaap/rawdog-md/helper"
 	"github.com/dwiandhikaap/rawdog-md/internal"
+	"github.com/radovskyb/watcher"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/fsnotify/fsnotify"
 )
-
-var watcherServer = internal.NewWatcherServer()
-
-var pathStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#00b0ff"))
 
 type WatcherCallbacks struct {
 	Write  func(string, *internal.Project) error
@@ -29,6 +21,10 @@ type WatcherCallbacks struct {
 	Remove func(string, *internal.Project) error
 	Rename func(string, *internal.Project) error
 }
+
+var watcherServer = internal.NewWatcherServer()
+
+var pathStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#00b0ff"))
 
 func Watch(relativePath string, port int) error {
 	rootAbs, err := filepath.Abs(relativePath)
@@ -45,59 +41,32 @@ func Watch(relativePath string, port int) error {
 	}
 	global.SetGlobalConfig(config)
 
-	// Watch for changes in the './pages' and './templates' directories
-	pageWatcher, err := fsnotify.NewWatcher()
+	project, err := internal.NewProject()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// Watch for changes in the './pages' and './templates' directories
 	pageWatcherCallback := WatcherCallbacks{
 		Write:  pageWriteCallback,
 		Create: pageCreateCallback,
 		Remove: pageRemoveCallback,
 		Rename: pageRenameCallback,
 	}
-	defer pageWatcher.Close()
+	go runWatcher(filepath.Join(relativePath, "pages"), pageWatcherCallback, project)
+	go runWatcher(filepath.Join(relativePath, "templates"), pageWatcherCallback, project)
 
-	// Watch for changes in the './assets' directory
-	assetWatcher, err := fsnotify.NewWatcher()
-	if err != nil {
-		log.Fatal(err)
-	}
 	assetWatcherCallback := WatcherCallbacks{
 		Write:  assetCallback,
 		Create: assetCallback,
 		Remove: assetCallback,
 		Rename: assetCallback,
 	}
-	defer assetWatcher.Close()
-
-	project, err := internal.NewProject()
-	if err != nil {
-		log.Fatal(err)
-	}
+	go runWatcher(filepath.Join(relativePath, "static"), assetWatcherCallback, project)
 
 	err = project.ForceRebuild()
 	if err != nil {
 		log.Println(err)
-	}
-
-	go runWatcher(pageWatcher, pageWatcherCallback, project)
-
-	err = registerWatcherWalk(pageWatcher, filepath.Join(relativePath, "pages"))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = registerWatcherWalk(pageWatcher, filepath.Join(relativePath, "templates"))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	go runWatcher(assetWatcher, assetWatcherCallback, project)
-
-	err = registerWatcherWalk(assetWatcher, filepath.Join(relativePath, "static"))
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	fmt.Println("Press Ctrl+C to stop.")
@@ -111,99 +80,53 @@ func Watch(relativePath string, port int) error {
 	return nil
 }
 
-// TODO: delay rebuild for file rename, create, remove events to prevent multiple unexpected rebuilds
-func runWatcher(w *fsnotify.Watcher, cb WatcherCallbacks, project *internal.Project) {
-	mu := sync.Mutex{}
-	timers := make(map[string]*time.Timer)
+func runWatcher(relativePath string, callbacks WatcherCallbacks, project *internal.Project) {
+	w := watcher.New()
 
-	for {
+	w.SetMaxEvents(1)
+	w.FilterOps(watcher.Write, watcher.Create, watcher.Remove, watcher.Rename)
 
-		select {
-		case err, ok := <-w.Errors:
-			if !ok {
-				return
-			}
-			fmt.Println("Error:", err)
-
-		case event, ok := <-w.Events:
-			if !ok {
-				return
-			}
-
-			mu.Lock()
-			t, ok := timers[event.Name]
-			mu.Unlock()
-
-			if !ok {
-				t = time.AfterFunc(math.MaxInt64, func() {
-					mu.Lock()
-					delete(timers, event.Name)
-					mu.Unlock()
-
-					time.Sleep(10 * time.Millisecond)
-
-					var err error = nil
-					if event.Op&fsnotify.Write == fsnotify.Write {
-						// If there is a new directory, add it to the watcher
-						if helper.IsPathDir(event.Name) {
-							err := registerWatcherWalk(w, event.Name)
-							if err != nil {
-								log.Fatal(err)
-							}
-						}
-
-						err = cb.Write(event.Name, project)
-					}
-
-					if event.Op&fsnotify.Create == fsnotify.Create {
-						err = cb.Create(event.Name, project)
-					}
-
-					if event.Op&fsnotify.Remove == fsnotify.Remove {
-						err = cb.Remove(event.Name, project)
-					}
-
-					if event.Op&fsnotify.Rename == fsnotify.Rename {
-						err = cb.Rename(event.Name, project)
-					}
-
+	go func() {
+		for {
+			select {
+			case event := <-w.Event:
+				if event.Op == watcher.Write {
+					err := callbacks.Write(event.Path, project)
 					if err != nil {
-						fmt.Println(err)
+						log.Println(err)
 					}
-				})
-				t.Stop()
-
-				mu.Lock()
-				timers[event.Name] = t
-				mu.Unlock()
-			}
-
-			t.Reset(100 * time.Millisecond)
-		}
-	}
-}
-
-func registerWatcherWalk(watcher *fsnotify.Watcher, path string) error {
-	err := filepath.WalkDir(path, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if d.IsDir() {
-			err = watcher.Add(path)
-			fmt.Println("Watching", pathStyle.Render(path))
-			if err != nil {
-				return err
+				} else if event.Op == watcher.Create {
+					err := callbacks.Create(event.Path, project)
+					if err != nil {
+						log.Println(err)
+					}
+				} else if event.Op == watcher.Remove {
+					err := callbacks.Remove(event.Path, project)
+					if err != nil {
+						log.Println(err)
+					}
+				} else if event.Op == watcher.Rename {
+					err := callbacks.Rename(event.Path, project)
+					if err != nil {
+						log.Println(err)
+					}
+				}
+			case err := <-w.Error:
+				log.Fatalln(err)
+			case <-w.Closed:
+				return
 			}
 		}
+	}()
 
-		return nil
-	})
-	if err != nil {
-		return err
+	if err := w.AddRecursive(relativePath); err != nil {
+		log.Fatalln(err)
 	}
 
-	return nil
+	// Start the watching process - it'll check for changes every 100ms.
+	if err := w.Start(time.Millisecond * 100); err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func eventRelativeRoot(eventPath string) string {
@@ -212,8 +135,7 @@ func eventRelativeRoot(eventPath string) string {
 		log.Fatal(err)
 	}
 
-	abs := filepath.Join(cwd, eventPath)
-	relPath, err := filepath.Rel(global.Config.RootAbsolutePath, abs)
+	relPath, err := filepath.Rel(cwd, eventPath)
 	if err != nil {
 		log.Fatal(err)
 	}

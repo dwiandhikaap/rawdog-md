@@ -8,8 +8,8 @@ require (
 	github.com/aymerick/raymond v2.0.2+incompatible
 	github.com/charmbracelet/huh v0.5.2
 	github.com/charmbracelet/lipgloss v0.12.1
-	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gorilla/websocket v1.5.3
+	github.com/radovskyb/watcher v1.0.7
 	github.com/yuin/goldmark v1.7.4
 	gopkg.in/yaml.v2 v2.4.0
 )
