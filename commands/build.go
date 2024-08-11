@@ -29,6 +29,12 @@ func Run(relativePath string) error {
 	}
 	global.SetGlobalConfig(config)
 
+	// Load user config
+	err = global.LoadUserConfig()
+	if err != nil {
+		return err
+	}
+
 	style1 := lipgloss.NewStyle()
 	style2 := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#00b0ff"))
@@ -39,8 +45,7 @@ func Run(relativePath string) error {
 	}
 
 	fmt.Println(style1.Render("🚀 building at ") +
-		style2.Render(projectDirStr) +
-		style1.Render("..."))
+		style2.Render(projectDirStr))
 
 	startTime := time.Now()
 

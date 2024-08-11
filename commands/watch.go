@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -41,6 +42,12 @@ func Watch(relativePath string, port int) error {
 	}
 	global.SetGlobalConfig(config)
 
+	// Load user config
+	err = global.LoadUserConfig()
+	if err != nil {
+		return err
+	}
+
 	project, err := internal.NewProject()
 	if err != nil {
 		log.Fatal(err)
@@ -53,16 +60,26 @@ func Watch(relativePath string, port int) error {
 		Remove: pageRemoveCallback,
 		Rename: pageRenameCallback,
 	}
-	go runWatcher(filepath.Join(relativePath, "pages"), pageWatcherCallback, project)
-	go runWatcher(filepath.Join(relativePath, "templates"), pageWatcherCallback, project)
+	go runWatcher(filepath.Join(relativePath, "pages"), pageWatcherCallback, project, false)
+	go runWatcher(filepath.Join(relativePath, "templates"), pageWatcherCallback, project, false)
 
+	// Watch for changes in the './static' directory
 	assetWatcherCallback := WatcherCallbacks{
 		Write:  assetCallback,
 		Create: assetCallback,
 		Remove: assetCallback,
 		Rename: assetCallback,
 	}
-	go runWatcher(filepath.Join(relativePath, "static"), assetWatcherCallback, project)
+	go runWatcher(filepath.Join(relativePath, "static"), assetWatcherCallback, project, false)
+
+	// Watch for changes in the './rawdog.yaml' file
+	rawdogWatcherCallback := WatcherCallbacks{
+		Write:  configWriteCallback,
+		Create: configCreateCallback,
+		Remove: configRemoveCallback,
+		Rename: configRemoveCallback,
+	}
+	go runWatcher(filepath.Join(relativePath, "rawdog.yaml"), rawdogWatcherCallback, project, true)
 
 	err = project.ForceRebuild()
 	if err != nil {
@@ -80,7 +97,8 @@ func Watch(relativePath string, port int) error {
 	return nil
 }
 
-func runWatcher(relativePath string, callbacks WatcherCallbacks, project *internal.Project) {
+// if persist is true, the watcher will keep retrying to watch the file/folder if it doesn't exist until it does
+func runWatcher(relativePath string, callbacks WatcherCallbacks, project *internal.Project, persist bool) {
 	w := watcher.New()
 
 	w.SetMaxEvents(1)
@@ -112,7 +130,24 @@ func runWatcher(relativePath string, callbacks WatcherCallbacks, project *intern
 					}
 				}
 			case err := <-w.Error:
-				log.Fatalln(err)
+				if persist && err.Error() == "error: watched file or folder deleted" {
+					callbacks.Remove(relativePath, project) // could be caused by file rename but whatever
+
+					for {
+						if _, err := os.Stat(relativePath); err == nil {
+							err := callbacks.Create(relativePath, project)
+							if err != nil {
+								log.Println(err)
+							}
+							w.AddRecursive(relativePath)
+							break
+						}
+
+						time.Sleep(500 * time.Millisecond)
+					}
+				} else {
+					log.Fatalln(err)
+				}
 			case <-w.Closed:
 				return
 			}
@@ -120,7 +155,25 @@ func runWatcher(relativePath string, callbacks WatcherCallbacks, project *intern
 	}()
 
 	if err := w.AddRecursive(relativePath); err != nil {
-		log.Fatalln(err)
+		if persist && errors.Unwrap(err).Error() == "The system cannot find the file specified." {
+			// fmt.Println("watched file or folder doesnt exist, waiting for it to be created")
+
+			for {
+				if _, err := os.Stat(relativePath); err == nil {
+					err := callbacks.Create(relativePath, project)
+					if err != nil {
+						log.Println(err)
+					}
+					w.AddRecursive(relativePath)
+					break
+				}
+
+				time.Sleep(500 * time.Millisecond)
+			}
+
+		} else {
+			log.Fatalln(err)
+		}
 	}
 
 	// Start the watching process - it'll check for changes every 100ms.
@@ -130,10 +183,7 @@ func runWatcher(relativePath string, callbacks WatcherCallbacks, project *intern
 }
 
 func eventRelativeRoot(eventPath string) string {
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
-	}
+	cwd := global.Config.RootAbsolutePath
 
 	relPath, err := filepath.Rel(cwd, eventPath)
 	if err != nil {
@@ -220,5 +270,68 @@ func assetCallback(eventPath string, project *internal.Project) error {
 		watcherServer.Broadcast("reload")
 	}
 
+	return nil
+}
+
+func configCreateCallback(eventPath string, project *internal.Project) error {
+	err := global.LoadUserConfig()
+	if err != nil {
+		fmt.Println("🔧 Config File Created")
+		return fmt.Errorf("config error: %v", err)
+	}
+
+	startTime := time.Now()
+	err = project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
+	if err != nil {
+		fmt.Println("🔧 Config File Created")
+		return fmt.Errorf("build error: %v", err)
+	}
+
+	fmt.Println("🔧 Config File Created", "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
+	return nil
+}
+
+func configWriteCallback(eventPath string, project *internal.Project) error {
+	err := global.LoadUserConfig()
+	if err != nil {
+		fmt.Println("🔧 Config File Created")
+		return fmt.Errorf("config error: %v", err)
+	}
+
+	startTime := time.Now()
+	err = project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
+	if err != nil {
+		fmt.Println("🔧 Config File Modified")
+		return fmt.Errorf("build error: %v", err)
+	}
+
+	fmt.Println("🔧 Config File Modified", "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
+	return nil
+}
+
+func configRemoveCallback(eventPath string, project *internal.Project) error {
+	err := global.LoadUserConfig()
+	if err != nil {
+		fmt.Println("🔧 Config File Created")
+		return fmt.Errorf("config error: %v", err)
+	}
+
+	startTime := time.Now()
+	err = project.ForceRebuild()
+	durationMs := time.Since(startTime).Milliseconds()
+
+	if err != nil {
+		fmt.Println("🔧 Config File Removed")
+		return fmt.Errorf("build error: %v", err)
+	}
+
+	fmt.Println("🔧 Config File Removed, falling back to default config.", "(rebuild took", durationMs, "ms)")
+	watcherServer.Broadcast("reload")
 	return nil
 }
