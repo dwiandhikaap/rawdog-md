@@ -190,8 +190,6 @@ scoop uninstall rawdog-md
 <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/project_structure.png" alt="project structure">
 </details>
 
-## ⚠ Known Issues
-- If you use VSCode as your editor and you're using auto save, set your auto save delay longer than rebuild duration. Otherwise, you might get an empty page because VSCode touches the file twice. See [this issue](https://github.com/microsoft/vscode/issues/9419).
 
 ## 🤝 Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
