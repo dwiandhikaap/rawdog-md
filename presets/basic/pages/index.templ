@@ -32,7 +32,7 @@ fm-yaml-end
     {{ end }}
     </ul>
 
-    <p>Contexts are special variables that are available in all Go template files, including those in the templates directory and the <code>pages</code> directory.</p>
+    <p>Contexts are special variables that can be used in all <code>.templ</code> files, including those in the <code>templates</code> directory and the <code>pages</code> directory.</p>
 
     <h3>Default Contexts Provided by rawdog-md™</h3>
     <ul>
@@ -56,7 +56,7 @@ fm-yaml-end
         </li>
     </ul>
 
-    <p>Note that default contexts start with <code>.</code> to avoid conflicts with user-defined contexts. However, you can override it if you really want to by using the same name without the <code>.</code> prefix.</p>
+    <p>Note that if you have a variable/context that has the same name as the default contexts, the default context will be overridden by the variable you defined.</p>
 
     <h3>Raw HTML</h3>
     <p>If you don't need contexts or dynamic content, you can use raw HTML content in the Go template file. It will be rendered as is.</p>

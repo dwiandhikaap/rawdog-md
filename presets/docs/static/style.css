@@ -58,6 +58,18 @@ img, canvas, iframe, video, svg, select, textarea {
   max-width: 100%;
 }
 
+.anchor {
+  opacity: 0.2;
+}
+
+h1 .anchor, h2 .anchor, h3 .anchor, h4 .anchor, h5 .anchor, h6 .anchor {
+  font-size: 0.5em;
+}
+
+.anchor:hover {
+  opacity: 1;
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;

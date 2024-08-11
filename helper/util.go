@@ -5,6 +5,24 @@ import (
 	"path/filepath"
 )
 
+func SliceContainsInt(slice []int, n int) bool {
+	for _, v := range slice {
+		if v == n {
+			return true
+		}
+	}
+	return false
+}
+
+func SliceContainsString(slice []string, s string) bool {
+	for _, v := range slice {
+		if v == s {
+			return true
+		}
+	}
+	return false
+}
+
 func TruncateString(s string, n int) string {
 	i := 0
 	for j := range s {

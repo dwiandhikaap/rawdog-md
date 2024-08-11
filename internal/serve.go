@@ -15,7 +15,7 @@ func Serve(watcherServer *WatcherServer, dir string, port int) {
 	http.Handle("/", http.FileServer(http.Dir(dir)))
 	http.HandleFunc("/__rawdog-md/watcher", watcherHandler(watcherServer))
 
-	portStr := fmt.Sprintf("127.0.0.1:%d", port)
+	portStr := fmt.Sprintf("localhost:%d", port)
 	fmt.Println("Serving on http://" + portStr)
 	http.ListenAndServe(portStr, nil)
 

@@ -6,33 +6,38 @@
     rawdog-md
 </h1>
 <p align="center">
-Caveman-level simple, Markdown-to-HTML static blog tooling with minimal configuration. 
+Caveman-level simple, Markdown-to-HTML static site tooling with minimal configuration. 
 </p>
 <p align="center">
 Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com</a>, uses <a href="https://pkg.go.dev/text/template">Go Template</a> and HTML under the hood.
 </p>
 </div>
 
+## ✨ Features
+- Easy to setup, customize, and deploy quickly.
+- No bloated dependencies/framework code.
+- Supports customizable syntax highlighting **WITHOUT** JavaScript.
+- Supports embedding YouTube, Twitter, and Bilibili videos out of the box.
+- Live reload server for local development.
+- Various starter template to get going immediately
 
 
 ## 👍 You might want to use this if:
-- You want to write your blog posts in markdown.
-- You want to get started with writing your blog posts ASAP without caring much about config files.
-- You don't wanna install things like Node.js, Ruby, or Python.
+- You want to write your site content in Markdown.
+- You want to get started with writing your posts ASAP without caring much about config files.
 - You want to cook your own HTML and CSS and then forget about it.
-- You want to host your blog on GitHub Pages or Cloudflare Pages.
+- You want to host your site on GitHub Pages or Cloudflare Pages.
 
 ## 👎 You might not want to use this if:
 - You want a full-fledged static site generator.
-- You want to use a CMS.
 - You have dynamic contents.
-- You need advanced UI.
+- You need interactive UI.
 
 ## 🔑 Core Concepts
-- **Minimal Config**: rawdog-md is designed to be used with minimal configuration. Choose a starter template and immediately start writing your blog posts in markdown.
-- **Opiniated**: This tool is not meant to be a general purpose static site generator. It is meant to be used for a very specific use case, which is a static blog with a few simple templated pages. If you want something more general purpose and more advanced, check out Hugo, Frontmatter, or Jekyll.
+- **Minimal Config**: rawdog-md is designed to be used with minimal configuration. Choose a starter template and immediately start writing your posts in markdown.
+- **Opiniated**: This tool is not meant to be a general purpose static site generator. It is meant to be used for a very specific use case, which is a static site with a few simple templated pages. If you want something more general purpose and more advanced, check out [Hugo](https://gohugo.io/) or [Jekyll](https://jekyllrb.com/).
 - **Bring your own styling**: rawdog-md provides the minimal styling. However, it is very easy to adjust as it is just a plain CSS and HTML file.
-- **Cross platform**: You can use it on Windows, Linux and MacOS. (Need testing on MacOS and Linux)
+- **Cross platform**: You can use it on Windows, Linux and MacOS.
 
 
 ## 💻 Installation
@@ -185,8 +190,7 @@ scoop uninstall rawdog-md
 <img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/project_structure.png" alt="project structure">
 </details>
 
-## ⚠ Known Issues
-- If you use VSCode as your editor and you're using auto save, set your auto save delay longer than rebuild duration. Otherwise, you might get an empty page because VSCode touches the file twice. See [this issue](https://github.com/microsoft/vscode/issues/9419).
 
 ## 🤝 Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
+
