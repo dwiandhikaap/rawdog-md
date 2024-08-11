@@ -1,9 +1,9 @@
 {
-    "version": "v0.1.5",
+    "version": "v0.1.6",
     "description": "simple tool for rawdogging your markdown to styled html blog",
     "homepage": "https://github.com/dwiandhikaap/rawdog-md",
     "license": "MIT",
-    "url": "https://github.com/dwiandhikaap/rawdog-md/releases/download/v0.1.5/rawd-v0.1.5-windows-amd64.zip",
+    "url": "https://github.com/dwiandhikaap/rawdog-md/releases/download/v0.1.6/rawd-v0.1.6-windows-amd64.zip",
     "bin": "rawd.exe",
     "autoupdate": {
         "architecture": {

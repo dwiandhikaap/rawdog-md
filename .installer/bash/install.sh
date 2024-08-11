@@ -27,19 +27,19 @@ mkdir -p "$INSTALL_DIR" || error "Failed to create install directory \"$INSTALL_
 case $platform in
     'Darwin x86_64')
         target="darwin-amd64"
-        asset_name="rawd-v0.1.5-darwin-amd64.tar.gz"
+        asset_name="rawd-v0.1.6-darwin-amd64.tar.gz"
         ;;
     'Darwin arm64')
         target="darwin-arm64"
-        asset_name="rawd-v0.1.5-darwin-arm64.tar.gz"
+        asset_name="rawd-v0.1.6-darwin-arm64.tar.gz"
         ;;
     'Linux x86_64')
         target="linux-amd64"
-        asset_name="rawd-v0.1.5-linux-amd64.tar.gz"
+        asset_name="rawd-v0.1.6-linux-amd64.tar.gz"
         ;;
     'Linux aarch64')
         target="linux-arm64"
-        asset_name="rawd-v0.1.5-linux-arm64.tar.gz"
+        asset_name="rawd-v0.1.6-linux-arm64.tar.gz"
         ;;
     *)
         error "Unsupported operating system: $platform"
