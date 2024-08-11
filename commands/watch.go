@@ -86,6 +86,7 @@ func Watch(relativePath string, port int) error {
 		log.Println(err)
 	}
 
+	fmt.Println("✨ Watching for changes in", pathStyle.Render(relativePath))
 	fmt.Println("Press Ctrl+C to stop.")
 
 	go internal.Serve(watcherServer, filepath.Join(relativePath, "build"), port)
