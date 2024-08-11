@@ -108,6 +108,9 @@ Output:
 
 ## Advanced Features
 
+### YouTube Embed
+![](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
 ### Blockquotes
 
 Blockquotes are created using the `>` symbol:
