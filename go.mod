@@ -14,6 +14,7 @@ require (
 	github.com/radovskyb/watcher v1.0.7
 	github.com/yuin/goldmark v1.7.4
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
+	go.abhg.dev/goldmark/anchor v0.1.1
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -51,10 +52,8 @@ require (
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
-	go.abhg.dev/goldmark/anchor v0.1.1 // indirect
 	golang.org/x/crypto v0.3.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
