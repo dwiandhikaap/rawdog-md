@@ -1,0 +1,24 @@
+# This is the configuration file for rawdog-md. If you delete this file, rawdog-md will use the default configuration.
+version: 1
+markdownPlugins:
+  # Plugin for syntax highlighting using https://github.com/yuin/goldmark-highlighting
+  highlighting:
+    enabled: true
+
+    # Available styles https://xyproto.github.io/splash/docs/
+    # If not set, rawdog-md will render each token with class names instead of inline styles (useful if you want to write your own CSS for syntax highlighting)
+    # To use a style, uncomment the line below and set the style to the desired style
+    # style: monokai
+
+    useLineNumbers: true
+
+  # Plugin to embed various content using https://github.com/quail-ink/goldmark-enclave
+  enclave:
+    enabled: true
+
+  # Plugin to add anchors (permalinks) next to all headers in a document.
+  anchor:
+    enabled: false
+    position: left
+    text: "🔗"
+    class: "anchor"
