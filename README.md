@@ -13,9 +13,16 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 </p>
 </div>
 
+> "I want to create a website with markdown and style it by myself using just HTML and CSS... 
+>
+> "I also don't want to install bunch of unrelated things like Node.js, npm, etc..."
+>
+> "More importantly, **I don't want to learn how to use the tool** and just wanna get started as soon as possible"
+
 ## ✨ Features
 - Easy to setup, customize, and deploy quickly.
 - No bloated dependencies/framework code.
+- Minification for HTML, CSS, JS, SVG, JSON, and XML
 - Supports customizable syntax highlighting **WITHOUT** JavaScript.
 - Supports embedding YouTube, Twitter, and Bilibili videos out of the box.
 - Live reload server for local development.
@@ -24,14 +31,10 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 
 ## 👍 You might want to use this if:
 - You want to write your site content in Markdown.
-- You want to get started with writing your posts ASAP without caring much about config files.
+- You want to get started with writing your posts ASAP without learning much about the tool.
 - You want to cook your own HTML and CSS and then forget about it.
 - You want to host your site on GitHub Pages or Cloudflare Pages.
 
-## 👎 You might not want to use this if:
-- You want a full-fledged static site generator.
-- You have dynamic contents.
-- You need interactive UI.
 
 ## 🔑 Core Concepts
 - **Minimal Config**: rawdog-md is designed to be used with minimal configuration. Choose a starter template and immediately start writing your posts in markdown.
@@ -183,13 +186,6 @@ scoop uninstall rawdog-md
     ```shell
     rawd build
     ```
-
-## 📁 Project Structure
-<details>
-<summary>Click to expand</summary>
-<img src="https://github.com/dwiandhikaap/rawdog-md/blob/main/.docs/project_structure.png" alt="project structure">
-</details>
-
 
 ## 🤝 Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
