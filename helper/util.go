@@ -3,7 +3,27 @@ package helper
 import (
 	"os"
 	"path/filepath"
+	"regexp"
+
+	"github.com/tdewolff/minify"
+	"github.com/tdewolff/minify/css"
+	"github.com/tdewolff/minify/html"
+	"github.com/tdewolff/minify/js"
+	"github.com/tdewolff/minify/json"
+	"github.com/tdewolff/minify/svg"
+	"github.com/tdewolff/minify/xml"
 )
+
+var Minifier = minify.New()
+
+func init() {
+	Minifier.AddFunc("text/css", css.Minify)
+	Minifier.AddFunc("text/html", html.Minify)
+	Minifier.AddFunc("image/svg+xml", svg.Minify)
+	Minifier.AddFuncRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), js.Minify)
+	Minifier.AddFuncRegexp(regexp.MustCompile("[/+]json$"), json.Minify)
+	Minifier.AddFuncRegexp(regexp.MustCompile("[/+]xml$"), xml.Minify)
+}
 
 func SliceContainsInt(slice []int, n int) bool {
 	for _, v := range slice {

@@ -104,6 +104,16 @@ func (p *Page) Render(contextMap map[string]Context) error {
 
 	if p.Type == Html {
 		p.Output = p.Body
+		if global.Config.UserConfig.Options.Minify.HTML {
+			out, err := helper.Minifier.Bytes("text/html", []byte(p.Output))
+			if err != nil {
+				return err
+			}
+
+			p.Output = string(out)
+
+			return nil
+		}
 		return nil
 	}
 
@@ -117,6 +127,15 @@ func (p *Page) Render(contextMap map[string]Context) error {
 			return err
 		}
 
+		if global.Config.UserConfig.Options.Minify.HTML {
+			out, err := helper.Minifier.Bytes("text/html", []byte(html))
+			if err != nil {
+				return err
+			}
+
+			html = string(out)
+		}
+
 		p.Output = html
 		return nil
 	}
@@ -127,7 +146,15 @@ func (p *Page) Render(contextMap map[string]Context) error {
 			return err
 		}
 
-		p.Output = html
+		if global.Config.UserConfig.Options.Minify.HTML {
+			out, err := helper.Minifier.Bytes("text/html", []byte(html))
+			if err != nil {
+				return err
+			}
+
+			p.Output = string(out)
+		}
+
 		return nil
 	}
 

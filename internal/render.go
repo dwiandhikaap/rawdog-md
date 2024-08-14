@@ -15,20 +15,56 @@ import (
 
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/renderer/html"
 )
 
 func createMarkdownParser() goldmark.Markdown {
-	extensions := []goldmark.Extender{
-		extension.GFM,
-		extension.CJK,
-		extension.DefinitionList,
-		extension.Footnote,
-		extension.Table,
-		extension.Strikethrough,
-		extension.Typographer,
-		extension.TaskList,
-		extension.Linkify,
+	extensions := []goldmark.Extender{}
+
+	// GFM
+	if global.Config.UserConfig.MarkdownPlugins.GFM.Enabled {
+		extensions = append(extensions, extension.GFM)
+	}
+
+	// CJK
+	if global.Config.UserConfig.MarkdownPlugins.CJK.Enabled {
+		extensions = append(extensions, extension.CJK)
+	}
+
+	// DefinitionList
+	if global.Config.UserConfig.MarkdownPlugins.DefinitionList.Enabled {
+		extensions = append(extensions, extension.DefinitionList)
+	}
+
+	// Footnote
+	if global.Config.UserConfig.MarkdownPlugins.Footnote.Enabled {
+		extensions = append(extensions, extension.Footnote)
+	}
+
+	// Table
+	if global.Config.UserConfig.MarkdownPlugins.Table.Enabled {
+		extensions = append(extensions, extension.Table)
+	}
+
+	// Strikethrough
+	if global.Config.UserConfig.MarkdownPlugins.Strikethrough.Enabled {
+		extensions = append(extensions, extension.Strikethrough)
+	}
+
+	// Typographer
+	if global.Config.UserConfig.MarkdownPlugins.Typographer.Enabled {
+		extensions = append(extensions, extension.Typographer)
+	}
+
+	// TaskList
+	if global.Config.UserConfig.MarkdownPlugins.TaskList.Enabled {
+		extensions = append(extensions, extension.TaskList)
+	}
+
+	// Linkify
+	if global.Config.UserConfig.MarkdownPlugins.Linkify.Enabled {
+		extensions = append(extensions, extension.Linkify)
 	}
 
 	// Highlighting
@@ -72,6 +108,14 @@ func createMarkdownParser() goldmark.Markdown {
 		})
 	}
 
+	rendererOptions := []renderer.Option{
+		html.WithHardWraps(),
+	}
+
+	if global.Config.UserConfig.Options.Html.Unsafe {
+		rendererOptions = append(rendererOptions, html.WithUnsafe())
+	}
+
 	return goldmark.New(
 		goldmark.WithExtensions(
 			extensions...,
@@ -81,8 +125,7 @@ func createMarkdownParser() goldmark.Markdown {
 			parser.WithHeadingAttribute(),
 		),
 		goldmark.WithRendererOptions(
-			html.WithHardWraps(),
-			html.WithXHTML(),
+			rendererOptions...,
 		),
 	)
 }

@@ -242,6 +242,40 @@ func CopyStaticFiles() error {
 			return err
 		}
 
+		// TODO: Add more options for each minification
+		fileExtension := filepath.Ext(path)
+		if fileExtension == ".html" && global.Config.UserConfig.Options.Minify.HTML {
+			fileContent, err = helper.Minifier.Bytes("text/html", fileContent)
+			if err != nil {
+				return err
+			}
+		} else if fileExtension == ".css" && global.Config.UserConfig.Options.Minify.CSS {
+			fileContent, err = helper.Minifier.Bytes("text/css", fileContent)
+			if err != nil {
+				return err
+			}
+		} else if fileExtension == ".js" && global.Config.UserConfig.Options.Minify.JS {
+			fileContent, err = helper.Minifier.Bytes("application/javascript", fileContent)
+			if err != nil {
+				return err
+			}
+		} else if fileExtension == ".json" && global.Config.UserConfig.Options.Minify.JSON {
+			fileContent, err = helper.Minifier.Bytes("application/json", fileContent)
+			if err != nil {
+				return err
+			}
+		} else if fileExtension == ".xml" && global.Config.UserConfig.Options.Minify.XML {
+			fileContent, err = helper.Minifier.Bytes("text/xml", fileContent)
+			if err != nil {
+				return err
+			}
+		} else if fileExtension == ".svg" && global.Config.UserConfig.Options.Minify.SVG {
+			fileContent, err = helper.Minifier.Bytes("image/svg+xml", fileContent)
+			if err != nil {
+				return err
+			}
+		}
+
 		err = os.WriteFile(abs, fileContent, os.ModePerm)
 		if err != nil {
 			return err

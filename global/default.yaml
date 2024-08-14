@@ -1,5 +1,18 @@
 # This is the configuration file for rawdog-md. If you delete this file, rawdog-md will use the default configuration.
 version: 1
+options:
+  html:
+    # Set to true to allow HTML in markdown files
+    unsafe: false
+    
+  # Minify HTML, CSS, JS, JSON, XML, and SVG files on build
+  minify:
+    css: true
+    html: true
+    js: true
+    json: false
+    xml: false
+    svg: true
 markdownPlugins:
   # Plugin for syntax highlighting using https://github.com/yuin/goldmark-highlighting
   highlighting:
@@ -16,9 +29,40 @@ markdownPlugins:
   enclave:
     enabled: true
 
-  # Plugin to add anchors (permalinks) next to all headers in a document.
+  # Plugin to add anchors (permalinks) next to all headers in a document using https://github.com/abhinav/goldmark-anchor
   anchor:
     enabled: false
     position: left
     text: "🔗"
     class: "anchor"
+
+  # Below are plugins that are from the built-in goldmark extensions https://github.com/abhinav/goldmark-anchor
+  gfm:
+    enabled: true
+
+  cjk:
+    enabled: true
+    
+  definitionlist:
+    enabled: true
+
+  footnote:
+    enabled: true
+
+  table:
+    enabled: true
+
+  strikethrough:
+    enabled: true
+
+  typographer:
+    enabled: true
+
+  tasklist:
+    enabled: false
+
+  linkify:
+    enabled: true
+  
+  # If you want to add more goldmark extensions, 
+  # feel free to create a pull request or open an issue on the GitHub repository
