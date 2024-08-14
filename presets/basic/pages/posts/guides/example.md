@@ -15,7 +15,7 @@ A = πr^2
 ```
 
 Where:
-- `A` is the area of the circleasdasdasasdsasdasasdasdasdasdasad
+- `A` is the area of the circle
 - `π` is a mathematical constant approximately equal to 3.14159
 - `r` is the radius of the circle
 
