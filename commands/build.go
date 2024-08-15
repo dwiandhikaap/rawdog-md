@@ -13,7 +13,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-func Run(relativePath string) error {
+func Build(relativePath string) error {
 	rootAbs, err := os.Getwd()
 	if err != nil {
 		return err

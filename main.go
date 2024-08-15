@@ -51,7 +51,7 @@ func main() {
 			firstArg = args[1]
 		}
 
-		err := commands.Run(firstArg)
+		err := commands.Build(firstArg)
 		if err != nil {
 			fmt.Println(err)
 		}
