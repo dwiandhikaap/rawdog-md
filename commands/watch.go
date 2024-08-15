@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -131,7 +130,7 @@ func runWatcher(relativePath string, callbacks WatcherCallbacks, project *intern
 					}
 				}
 			case err := <-w.Error:
-				if persist && err.Error() == "error: watched file or folder deleted" {
+				if persist {
 					callbacks.Remove(relativePath, project) // could be caused by file rename but whatever
 
 					for {
@@ -156,7 +155,7 @@ func runWatcher(relativePath string, callbacks WatcherCallbacks, project *intern
 	}()
 
 	if err := w.AddRecursive(relativePath); err != nil {
-		if persist && errors.Unwrap(err).Error() == "The system cannot find the file specified." {
+		if persist {
 			// fmt.Println("watched file or folder doesnt exist, waiting for it to be created")
 
 			for {
