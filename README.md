@@ -13,11 +13,6 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 </p>
 </div>
 
-> "I want to create a website with markdown and style it by myself using just HTML and CSS... 
->
-> "I also don't want to install bunch of unrelated things like Node.js, npm, etc..."
->
-> "More importantly, **I don't want to learn how to use the tool** and just wanna get started as soon as possible"
 
 ## ✨ Features
 - Easy to setup, customize, and deploy quickly.
@@ -30,10 +25,9 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 
 
 ## 👍 You might want to use this if:
-- You want to write your site content in Markdown.
-- You want to get started with writing your posts ASAP without learning much about the tool.
-- You want to cook your own HTML and CSS and then forget about it.
-- You want to host your site on GitHub Pages or Cloudflare Pages.
+- You want to focus on creating your site, not learning the tool.
+- You want to build websites with Markdown and custom HTML/CSS.
+- You prefer a simple setup without unnecessary installations.
 
 
 ## 🔑 Core Concepts
