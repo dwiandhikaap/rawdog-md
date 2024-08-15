@@ -18,7 +18,7 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 - Easy to setup, customize, and deploy quickly.
 - No bloated dependencies/framework code.
 - Minification for HTML, CSS, JS, SVG, JSON, and XML
-- Supports customizable syntax highlighting **WITHOUT** JavaScript.
+- Supports syntax highlighting **WITHOUT** JavaScript with customizable CSS.
 - Supports embedding YouTube, Twitter, and Bilibili videos out of the box.
 - Live reload server for local development.
 - Various starter template to get going immediately
