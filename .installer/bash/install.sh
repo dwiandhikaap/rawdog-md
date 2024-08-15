@@ -24,7 +24,7 @@ INSTALL_DIR="$HOME/.local/share/rawdog-md"  # Change as needed
 mkdir -p "$INSTALL_DIR" || error "Failed to create install directory \"$INSTALL_DIR\""
 
 # Determine the target based on OS
-version="v0.1.7"
+version="v0.1.8"
 
 case $platform in
     'Darwin x86_64')
