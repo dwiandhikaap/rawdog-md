@@ -25,7 +25,7 @@ Inspired by <a href="https://motherfuckingwebsite.com">motherfuckingwebsite.com<
 
 
 ## 👍 You might want to use this if:
-- You want to focus on creating your site, not learning the tool.
+- You want to focus on creating your site instead of learning the tool.
 - You want to build websites with Markdown and custom HTML/CSS.
 - You prefer a simple setup without unnecessary installations.
 
