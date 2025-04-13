@@ -2,9 +2,14 @@ package internal
 
 import (
 	"bytes"
+	"fmt"
+	"reflect"
+	"sort"
+	"strings"
 	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
+	"github.com/araddon/dateparse"
 	"github.com/dwiandhikaap/rawdog-md/global"
 	"github.com/yuin/goldmark"
 
@@ -130,9 +135,17 @@ func createMarkdownParser() goldmark.Markdown {
 	)
 }
 
-func convertMarkdown(content string) (string, error) {
-	md := createMarkdownParser()
+var md goldmark.Markdown
 
+func init() {
+	InitMarkdownParser()
+}
+
+func InitMarkdownParser() {
+	md = createMarkdownParser()
+}
+
+func convertMarkdown(content string) (string, error) {
 	var buf bytes.Buffer
 	if err := md.Convert([]byte(content), &buf); err != nil {
 		return "", err
@@ -141,8 +154,82 @@ func convertMarkdown(content string) (string, error) {
 	return buf.String(), nil
 }
 
+func getField(obj any, fieldName string) (reflect.Value, bool) {
+	var val reflect.Value
+
+	defer func() {
+		if r := recover(); r != nil {
+			val = reflect.Value{}
+		}
+	}()
+
+	val = reflect.ValueOf(obj)
+
+	if val.Kind() == reflect.Map {
+		for _, key := range val.MapKeys() {
+			if key.String() == fieldName {
+				mapVal := val.MapIndex(key)
+				if !mapVal.IsValid() {
+					return reflect.Value{}, false
+				}
+				return mapVal, true
+			}
+		}
+		return reflect.Value{}, false
+	}
+
+	return reflect.Value{}, false
+}
+
+func sortDate(values []any, order string) []any {
+	order = strings.ToLower(order)
+	if order != "asc" && order != "desc" {
+		fmt.Println("sorting order should be either 'asc' or 'desc'")
+	}
+
+	compareInner := func(i, j int) bool {
+		fieldI, hasFieldI := getField(values[i], "Date")
+		fieldJ, hasFieldJ := getField(values[j], "Date")
+
+		if !hasFieldI || !hasFieldJ {
+			return false
+		}
+
+		if fieldI.Kind() == reflect.Interface {
+			stringTimeI := fieldI.Interface().(string)
+			stringTimeJ := fieldJ.Interface().(string)
+
+			timeI, errI := dateparse.ParseAny(stringTimeI)
+			timeJ, errJ := dateparse.ParseAny(stringTimeJ)
+
+			if errI != nil || errJ != nil {
+				return false
+			}
+
+			return timeI.Before(timeJ)
+		}
+
+		return false
+	}
+
+	compare := func(i, j int) bool {
+		if order == "desc" {
+			return !compareInner(i, j)
+		}
+		return compareInner(i, j)
+	}
+
+	sort.SliceStable(values, compare)
+
+	return values
+}
+
 func renderTextTemplate(content string, context map[string]interface{}) (string, error) {
-	tmpl, err := template.New("text").Funcs(sprig.FuncMap()).Parse(content)
+	funcMap := sprig.FuncMap()
+
+	funcMap["sortDate"] = sortDate
+
+	tmpl, err := template.New("text").Funcs(funcMap).Parse(content)
 	if err != nil {
 		return "", err
 	}

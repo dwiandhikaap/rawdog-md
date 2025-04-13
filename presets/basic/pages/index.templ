@@ -23,7 +23,7 @@ fm-yaml-end
     <h5>List of Markdown Posts</h5>
     <ul>
 
-    {{ range .Pages }}
+    {{ range sortDate .Pages "asc" }}
         {{ if eq .Type "markdown" }}
             <li>
                 <a href="../{{ .Path }}">{{ .Title }}</a><span style="font-size: 11px;"> • {{ mustToDate "2006-01-02 15:04:05" .Date | date "Mon, 02 Jan 2006 15:04:05 MST" }}</span>

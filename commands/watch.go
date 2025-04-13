@@ -46,6 +46,7 @@ func Watch(relativePath string, port int) error {
 	if err != nil {
 		return err
 	}
+	internal.InitMarkdownParser()
 
 	project, err := internal.NewProject()
 	if err != nil {
@@ -279,6 +280,7 @@ func configCreateCallback(eventPath string, project *internal.Project) error {
 		fmt.Println("🔧 Config File Created")
 		return fmt.Errorf("config error: %v", err)
 	}
+	internal.InitMarkdownParser()
 
 	startTime := time.Now()
 	err = project.ForceRebuild()
@@ -300,6 +302,7 @@ func configWriteCallback(eventPath string, project *internal.Project) error {
 		fmt.Println("🔧 Config File Created")
 		return fmt.Errorf("config error: %v", err)
 	}
+	internal.InitMarkdownParser()
 
 	startTime := time.Now()
 	err = project.ForceRebuild()
@@ -321,6 +324,7 @@ func configRemoveCallback(eventPath string, project *internal.Project) error {
 		fmt.Println("🔧 Config File Created")
 		return fmt.Errorf("config error: %v", err)
 	}
+	internal.InitMarkdownParser()
 
 	startTime := time.Now()
 	err = project.ForceRebuild()

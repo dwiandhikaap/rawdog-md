@@ -35,6 +35,8 @@ func Build(relativePath string) error {
 		return err
 	}
 
+	internal.InitMarkdownParser()
+
 	style1 := lipgloss.NewStyle()
 	style2 := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#00b0ff"))
